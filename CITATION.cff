@@ -1,14 +1,14 @@
 cff-version: 1.2.0
 message: "If you use this manuscript or Lean 4 formalization, please cite it as below."
-title: "On the Exceptional Set in the Binary Goldbach Problem in Arithmetic Progressions of Arbitrary Modulus under GRH and Its Formalization in Lean 4"
+title: "On the Exceptional Set in the Binary Goldbach Problem in Arithmetic Progressions of Arbitrary Modulus under GRH, and Its Formalization in Lean 4"
 type: software
 authors:
   - family-names: Lin
     given-names: KenRui
     affiliation: "Independent Researcher, Guangzhou, China"
     email: "longinuslkr@gmail.com"
-version: "1.0.0"
-date-released: "2026-11-25"
+version: "2.0.0"
+date-released: "2026-11-28"
 license: Apache-2.0
 keywords:
   - binary Goldbach problem
@@ -19,10 +19,15 @@ keywords:
   - smoothed explicit formula
   - Lean 4
   - formal verification
+  - Kloosterman sums
+  - reflected Chowla correlations
 abstract: >-
   Assuming the Generalized Riemann Hypothesis (GRH) for all primitive Dirichlet
   L-functions, we prove a uniform upper bound on the exceptional set E_r(X; b_1, b_2)
   for the binary Goldbach problem with both prime summands restricted to arbitrary
   coprime residue classes modulo any positive integer r >= 1, together with a
-  complete zero-sorry formalization in Lean 4 / Mathlib v4.36.0 (13 files, 13,595 lines)
-  depending solely on [propext, Classical.choice, Quot.sound].
+  Lean 4 / Mathlib v4.36.0 formalization of that result under Dirichlet GRH.
+  The route-f release adds two preprints on composite-modulus Möbius-weighted
+  trilinear Kloosterman sums and reflected binary Chowla correlations under
+  Dirichlet GRH, with six Lean modules verifying selected algebraic and
+  arithmetic steps and exact parameter inequalities.

@@ -1,0 +1,18 @@
+This project incorporates and adapts Lean proofs from subfish-zhou/goldbach-lean.
+
+Upstream project: https://github.com/subfish-zhou/goldbach-lean
+Source revision: 9d4c3a4010d42aedd9e7231bf94386019cfffccc
+License: Apache License, Version 2.0, reproduced in LICENSE alongside this notice.
+
+ChenDimensionOne.lean adapts the local interval comparisons in
+MathlibNt/SieveTheory/Arithmetic/MertensTheorem.lean and the local logarithmic
+estimate in AnalyticNumberTheory/Mertens/Basic.lean. The port uses the
+project's own prime reciprocal notation and proved Mertens bounds.
+
+For distributions including the Suzuki linear-sieve port, its vendored files
+retain their upstream module paths and copyright headers. The local port
+adjusts imports and proofs for Lean and Mathlib 4.36. Its
+RosserSuzukiUpperInterval.lean adapts
+the all-depth argument from
+MathlibNt/SieveTheory/LinearSieve/Suzuki/SuzukiUpperRosserAllDepth.lean
+to the parameter range starting at s > 1.

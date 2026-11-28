@@ -33,13 +33,13 @@ $$E_r(X; b_1, b_2) \le C \min\!\left\{\frac{X}{r},\; \left(\frac{\varphi(r)}{r}\
    - **Theorem 1.1 (unconditional, averaged over $r$):** Almost all moduli $r \le N^{1/2}/\log^A N$ have $o(N/r)$ exceptional even integers.
    - **Theorem 1.2 (unconditional, individual prime moduli $r$):** Bounds exceptional prime moduli up to $r \le N^{5/24-\varepsilon}$.
    - **GRH remark after Theorem 1.2:** Explicitly notes that assuming GRH eliminates the exceptional moduli in his argument and pushes the individual prime-modulus range to **$r \le N^{1/4-\varepsilon}$** (with logarithmic saving $O(N/(r\log^K N))$).
-   - **Our advance:** For each fixed $\varepsilon>0$, the bound gives a power saving for individual moduli $r \le X^{1/3-\varepsilon}$ and applies to all positive integers $r$. The manuscript gives the full modulus-dependent bound.
+   - **Our advance:** Pushes individual moduli from $X^{1/4-\varepsilon}$ to **$X^{1/3-\varepsilon}$** (actually $r \ll X^{1/3} (r/\varphi(r))^2 / \log^2 X$), upgrades the saving from logarithmic to **power-saving**, extends from odd primes to **all positive integers $r$**, and eliminates the five-case Vaughan decomposition entirely.
 2. **Bauer & Wang (2013)** (*Acta Arith.*) and **Bauer (2017)** (*Arch. Math.* **108**, 159–172):
    - Unconditional results for almost all prime moduli up to $r \le N^{1/3}/\log^{O(1)} N$ and counts of exceptional prime moduli.
 3. **Bhowmik, Halupczok, Matsumoto & Suzuki (2019)** (*Mathematika* **65**, 57–97):
    - Studies averages $\sum_{n \le X, n \equiv a \bmod q} R(n)$ and their explicit links to zeros of Dirichlet $L$-functions under GRH (different object: averaged representation sum rather than binary exceptional set $E_r(X; b_1, b_2)$ with both summands restricted $\bmod r$).
-4. **Hardy & Littlewood (1924)** (*Proc. LMS*) and **Goldston (1992)** (*Proceedings of the Amalfi Conference on Analytic Number Theory*, 115–155):
-   - The conditional classical bounds for $r = 1$ are $E(X) \ll X^{1/2+\varepsilon}$ (Hardy–Littlewood) and $E(X) \ll X^{1/2}\log^3 X$ (Goldston). Theorem 1 recovers the latter bound at $r = 1$.
+4. **Hardy & Littlewood (1924)** (*Proc. LMS*) and **Goldston (1992)** (*Glasgow Math. J.*):
+   - For $r = 1$, $E(X) \ll X^{1/2+\varepsilon}$ (Hardy–Littlewood under GRH) and $E(X) \ll X^{1/2}\log^3 X$ (Goldston under RH). Our Theorem 1 recovers $\sqrt{X}\log^3(2X)$ at $r = 1$.
 5. **Friedlander & Goldston (1997)** (*Trans. AMS*, Section 7):
    - Source for the sharp twisted explicit formula bound $\sqrt{Y(1+|t|Y)}\log^2(2dY)$ under GRH; our quartic-bump smoothing sharpens this to $\sqrt{Y(1+|t|Y)}\log(2dY)$ while simplifying the contour shift.
 

@@ -6,7 +6,41 @@
 
 **Author:** KenRui Lin (Independent Researcher, Guangzhou, China — `longinuslkr@gmail.com`)
 
-This repository contains the complete, zero-`sorry` Lean 4 / Mathlib formalization and the accompanying research manuscript proving a uniform upper bound on the exceptional set in the binary Goldbach problem with both prime summands restricted to arbitrary coprime residue classes modulo any positive integer $r \ge 1$ under the Generalized Riemann Hypothesis (GRH).
+This repository contains a Lean 4 / Mathlib formalization and an accompanying manuscript on the binary Goldbach exceptional set in arithmetic progressions under Dirichlet GRH. The `route-f` release adds two preprints and Lean certificates for selected algebraic, arithmetic, and parameter-budget steps in their proofs.
+
+## Route F Preprints
+
+1. **Möbius-weighted trilinear Kloosterman sums at composite moduli and Goldbach remainder rectangles** ([PDF](paper/Target3B_TrilinearKloostermanMoebius.pdf), [TeX](paper/Target3B_TrilinearKloostermanMoebius.tex)). Gives uniform unconditional trilinear estimates at composite moduli, with balanced thresholds $8/17$ by the elementary argument and $7/15$ using Pascadi's spectral estimate. The paper identifies a parameter obstruction at $7/15$, gives an unbalanced feasible region, and uses RH to obtain power savings for smooth and sharp right-end Goldbach remainder rectangles.
+2. **Reflected Binary Chowla Correlations for All Integers under Dirichlet GRH** ([PDF](paper/Target3A_ReflectedChowlaAllIntegers.pdf), [TeX](paper/Target3A_ReflectedChowlaAllIntegers.tex)). For each fixed bounded-variation weight, the paper derives an $o(N)$ reflected Möbius correlation along all positive integers under Dirichlet GRH, using analytic estimates from [Lichtman, arXiv:2611.28392v1](https://arxiv.org/abs/2611.28392v1). It gives a counterexample for general bounded Borel weights and states the remaining limits for the intermediate Goldbach scales.
+
+## Formal Verification Scope
+
+Lean `4.36.0` and Mathlib `v4.36.0` are pinned. All six modules are imported by [FareyGoldbach.lean](lean/FareyGoldbach.lean).
+
+| Module | Audited declarations | Kernel-checked content |
+| :--- | ---: | :--- |
+| [Target3AFoundation](lean/FareyGoldbach/Target3AFoundation.lean) | 10 | Signed cofactor identities, the plus-sign counterexample, prime-index lattice determinant and image, and box primitivity. |
+| [Target3AAssembly](lean/FareyGoldbach/Target3AAssembly.lean) | 14 | Congruences, fibre spacing, changes of coordinates, sampling weights, parameter inequalities, and a conditional minor-arc bound. |
+| [CompositeTarget3A](lean/FareyGoldbach/CompositeTarget3A.lean) | 17 | Composite-index lattice image, primitivity and collinearity, Kloosterman coprimality, gcd stripping, and the integer-power budget. |
+| [Target3BMoebiusSplit](lean/FareyGoldbach/Target3BMoebiusSplit.lean) | 13 | Double Möbius truncation, finite Type I/II split and support, the $9/19$ exponent budget, and a conditional power bound. |
+| [Target3BKaratsuba](lean/FareyGoldbach/Target3BKaratsuba.lean) | 4 | Unconditional Karatsuba–Bourgain–Garaev least-common-multiple divisibility, including the four- and six-reciprocal cases. |
+| [Target3BThresholds](lean/FareyGoldbach/Target3BThresholds.lean) | 21 | Exact rational exponent inequalities for $8/17$ and $7/15$, spectral normalization, the $d_0$ shift, and the obstruction at $s=3j$. |
+
+[RouteFAudit.lean](lean/tests/RouteFAudit.lean) checks the axiom dependencies of these 79 declarations. Each depends on a subset of `propext`, `Classical.choice`, and `Quot.sound`, with no `sorryAx` or custom axiom. Conditional declarations take analytic hypotheses such as `AnalyticMinorArcInputs` and `AnalyticEstimates` as arguments. The two preprints supply the full analytic proofs, including the use of the Weil and Pascadi estimates, the cited analytic inputs from Lichtman, and the consequences under RH or Dirichlet GRH.
+
+From the repository root, run the route-f checks in PowerShell.
+
+```powershell
+python notes/check_target3b_thresholds.py
+cd lean
+$env:LEAN_NUM_THREADS="3"
+lake build FareyGoldbach
+lake env lean -DwarningAsError=true tests/RouteFAudit.lean
+```
+
+The Python script checks exponent inequalities in exact rational arithmetic. The `FareyGoldbach` target completes with 9,298 jobs and inherited warnings in earlier modules, with zero warnings in the six route-f modules. The warning-as-error audit exits successfully and prints all 79 axiom reports.
+
+The Chinese derivation notes cover the [prime case](notes/Target3A_ReflectedChowla_GRH.md), the [composite and all-integer case](notes/Target3A_CompositeReflectedChowla_GRH.md), and the [right-end thresholds](notes/Target3B_RightEndThresholds.md).
 
 ---
 
@@ -41,14 +75,14 @@ with **zero `sorry`**, **zero `admit`**, and **zero custom axioms** (`DirichletG
 
 - `paper/main.pdf` — Compiled 28-page AMS manuscript.
 - `paper/main.tex`, `paper/references.bib` — Complete LaTeX source and BibTeX bibliography.
-- `lean/` — Complete Lean 4.36.0 / Mathlib project (`FareyGoldbach`, 13 files, 13,595 lines).
-- `notes/` — Early numerical sanity-check script (`verify_step1.py`) and Step 1 exploration notes.
+- `lean/` — Lean 4.36.0 / Mathlib project, including earlier formalizations and the route-f modules and audit listed above.
+- `notes/` — Derivation notes and exact-rational checks for route-f, plus earlier exploration notes and scripts.
 
-### Lean 4 Module Map (13 files, 13,595 lines)
+### Lean 4 Modules for the Original Exceptional-Set Theorem
 
 | Stage / Module | File | Lines | Mathematical Content |
 | :--- | :--- | ---: | :--- |
-| Root | `lean/FareyGoldbach.lean` | 12 | Package root importing all 12 modules |
+| Root | `lean/FareyGoldbach.lean` | — | Package root importing the original formalization and later additions |
 | Shared defs | `lean/FareyGoldbach/Defs.lean` | 146 | `Progressions`, `DirichletGRH`, `SmoothedTwistEstimate`, `Target` |
 | Stage 2 / A1 | `lean/FareyGoldbach/LocalLogDerivative.lean` | 1,705 | Right-half-plane growth ($\Re s \ge 1/16$), Jensen zero counts, Borel–Carathéodory local $-L'/L$, single-log $\Re s = 1/4$ bound, symmetric good heights |
 | Stage 2 / A2 | `lean/FareyGoldbach/QuarticMellin.lean` | 1,525 | Quartic bump $w(x)=16x^2(1-x)^2$ tilted Mellin kernel, second-derivative Van der Corput $O(B^{-1/2})$, full-phase double IBP tail $O((1+|\gamma|)^{-2})$, Mellin inversion |
@@ -104,6 +138,13 @@ pdflatex main && bibtex main && pdflatex main && pdflatex main
 tectonic main.tex
 ```
 
+The two route-f preprints use inline bibliographies. From `paper/`, compile them with:
+
+```bash
+tectonic Target3B_TrilinearKloostermanMoebius.tex
+tectonic Target3A_ReflectedChowlaAllIntegers.tex
+```
+
 ---
 
 ## Transparency & Acknowledgments
@@ -117,7 +158,7 @@ If you use this work, please cite it using `CITATION.cff` or the following BibTe
 ```bibtex
 @misc{Lin2026GoldbachGRH,
   author = {Lin, KenRui},
-  title  = {On the Exceptional Set in the Binary Goldbach Problem in Arithmetic Progressions of Arbitrary Modulus under GRH and Its Formalization in Lean 4},
+  title  = {On the Exceptional Set in the Binary Goldbach Problem in Arithmetic Progressions of Arbitrary Modulus under GRH, and Its Formalization in Lean 4},
   year   = {2026},
   note   = {Manuscript and Lean 4 formalization}
 }

@@ -1,0 +1,1757 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks,pdfusetitle]{hyperref}
+\allowdisplaybreaks[2]
+\setlength{\emergencystretch}{3em}
+\raggedbottom
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\title[M\"obius-weighted trilinear Kloosterman sums]{M\"obius-weighted trilinear Kloosterman sums at composite moduli and Goldbach remainder rectangles}
+\hypersetup{pdftitle={M\"obius-weighted trilinear Kloosterman sums at composite moduli and Goldbach remainder rectangles}}
+\author{KenRui Lin}
+\address{Independent Researcher, Guangzhou, China}
+\email{longinuslkr@gmail.com}
+\subjclass[2020]{Primary 11L05, 11L07; Secondary 11P32, 11F72}
+\keywords{Kloosterman fractions, M\"obius function, reciprocal energy, Goldbach problem, Poisson summation}
+\date{}
+
+\begin{document}
+\begin{abstract}
+We prove power savings over \(X^2\) for a trilinear sum with a M\"obius
+weight, an essentially bounded second coefficient, and phases
+\(e(Nh\bar a/b)\) with \(a,b\asymp X=N^{1-\theta}\) and
+\(1\le J\le X^2/N\). A double M\"obius truncation, completion, and
+averaged fourth and sixth reciprocal moments give a saving of
+\(N^{(17\theta-8)/10-\varepsilon}\) for \(8/17<\theta\le1/2\).
+Using a local spectral average of Pascadi in the short Type II range
+gives a saving of \(N^{(15\theta-7)/10-\varepsilon}\) for
+\(7/15<\theta\le1/2\). Both estimates are unconditional and uniform in
+the prime factorization of \(N\). We compute the obstruction at
+\(7/15\) for this combination of estimates and the feasible region
+of the elementary fourth-moment argument in two variables.
+Under the Riemann hypothesis, these estimates give a power saving
+for smooth and sharp right-end dyadic rectangles of the Goldbach
+long-divisor remainder.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+Let \(e(t)=e^{2\pi it}\) and let \(\bar a\) denote the inverse of \(a\)
+modulo \(b\) in an expression with denominator \(b\). For \(N\ge1\) put
+\(X=N^{1-\theta}\) and \(H=X^2/N\). Given a fixed smooth function
+\(\Phi\) supported in \([1,2]^3\) and a complex sequence
+\(\|\beta\|_\infty\ll_\varepsilon N^\varepsilon\) for every \(\varepsilon>0\),
+write
+\begin{equation}\label{eq:main-sum}
+ S(X,J)=
+ \sum_{\substack{a,b\asymp X\\(a,b)=1}}\mu(a)\beta_b
+ \sum_{h\asymp J}\Phi(a/X,b/X,h/J)e(Nh\bar a/b).
+\end{equation}
+The support of \(\Phi\) specifies the dyadic ranges. All integers in
+the sums are positive unless a frequency is explicitly signed.
+
+\begin{theorem}[Elementary \(8/17\) bound]\label{thm:elementary}
+For \(8/17<\theta\le1/2\) and \(1\le J\le H\),
+\[
+ |S(X,J)|\ll_{\Phi,\varepsilon} X^2 N^{-(17\theta-8)/10+\varepsilon}.
+\]
+The analytic inputs are Poisson summation and the full-modulus Weil
+bound.
+\end{theorem}
+
+\begin{theorem}[Spectral \(7/15\) bound]\label{thm:spectral}
+For \(7/15<\theta\le1/2\) and \(1\le J\le H\),
+\[
+ |S(X,J)|\ll_{\Phi,\varepsilon} X^2 N^{-(15\theta-7)/10+\varepsilon}.
+\]
+The estimate is unconditional and uniform for all \(N\), in particular
+for arbitrary composite \(N\).
+\end{theorem}
+
+In both theorems the implied constants allow the constants in the
+hypothesis on \(\|\beta\|_\infty\). The elementary argument using only
+the fourth reciprocal moment gives
+\[
+ |S(X,J)|\ll_{\Phi,\varepsilon}X^2N^{-(19\theta-9)/12+\varepsilon}
+ \qquad(9/19<\theta\le1/2).
+\]
+
+\begin{proposition}[Obstruction at \(7/15\)]\label{prop:obstruction}
+Write \(X=N^x\), \(H=N^{j_0}\), and \(L=N^s\) for the short Type II
+factor. At \(j_0=x/8\) and \(s=3j_0\), the critical exponents of
+the reversed sixth and fourth moments both equal zero. The spectral
+second-moment nonzero-frequency exponent equals \(x/64>0\).
+Consequently the four-piece argument of this paper has exact
+strict-saving threshold \(7/15\).
+\end{proposition}
+
+\begin{proposition}[Unbalanced feasible region]\label{prop:unbalanced}
+Let \(U=N^\alpha,\ V=N^\beta\) with \(\alpha,\beta\ge0\),
+\(p=\min(\alpha,\beta)\), \(q=\max(\alpha,\beta)\), and \(p+q\le1\).
+At the nominal scales \(A=N/U,\ B=N/V,\ J\le AB/N\), allow either
+orientation of the M\"obius-weighted variable and modulus in the
+rectangle. The elementary nine-exponent method consisting of Type I,
+the elementary second moment, and the fourth moment gives a strict
+power saving over \(AB\) throughout the following feasible region:
+\begin{equation}\label{eq:region}
+\begin{aligned}
+ &(2p+q>1\ \land\ 3p+5q>4)\\
+ {}\lor{}&(4p+3q>3\ \land\ 8p+11q>9)\\
+ {}\lor{}&(2p+q>1\ \land\ 2q-p>1).
+\end{aligned}
+\end{equation}
+These inequalities describe the strict feasibility of the stated
+method. This region strictly contains the one obtained by direct
+insertion in Bettin--Chandee's Theorem~1,
+\(19p+14q>16\) and \(8p+7q>7\).
+\end{proposition}
+
+For positive \(U,V\) define the sharp and smooth versions by
+\begin{align}
+ T_{U,V}(N)&=\sum_{\substack{au+bv=N\\ U\le u<2U\\ V\le v<2V}}
+                    \mu(a)\mu(b), \label{eq:sharpT}\\
+ T_{U,V}^{f,g}(N)&=\sum_{au+bv=N}\mu(a)\mu(b)f(u/U)g(v/V),
+ \label{eq:smoothT}
+\end{align}
+where \(f,g\in C_c^\infty((0,\infty))\) are fixed and supported on
+\([1,2]\). The same smooth estimate holds for fixed compact supports
+inside \((0,\infty)\).
+
+\begin{corollary}[Right-end Goldbach rectangles under RH]\label{cor:rectangles}
+Assume the Riemann hypothesis for \(\zeta(s)\).
+Let \(U,V\asymp N^\theta\) with fixed comparability constants.
+For each fixed \(8/17<\theta<1\), the elementary method yields some
+\(\eta=\eta(\theta)>0\) such that
+\(T_{U,V}(N),T_{U,V}^{f,g}(N)\ll N^{1-\eta}\).
+With the spectral input, the conclusion holds for \(7/15<\theta<1\).
+The constants are uniform in the factorization of \(N\) and may
+depend on \(\theta,f,g\) and the comparability constants.
+\end{corollary}
+
+The restriction \(\theta<1\) allows arbitrary fixed comparability
+constants. At \(\theta=1\), taking \(U=V=9N/20\) forces \(a=b=1\)
+and gives \(T_{U,V}(N)=N/10+O(1)\). For \(U=V=N^\theta\) with
+\(\theta\ge1\), the equation has no solutions.
+
+For the Goldbach application use the additive convolution
+\[
+ \mathcal B(F,G)(N)=\sum_{m=1}^{N-1}F(m)G(N-m).
+\]
+Convolving \(\Lambda*\mathbf1=\log\) with \(\mu\) gives
+\(\Lambda(m)=\sum_{au=m}\mu(a)\log u\).
+Consider a long-divisor component
+\[
+ R_Z(m)=\sum_{\substack{au=m\\a>Z}}\mu(a)w(u).
+\]
+It contributes to \(\mathcal B(R_Z,R_Z)(N)\) the same rectangle sums
+with the additional weights \(w(u)w(v)\). For \(w(u)=\log u\), the
+normalized factor \(\log(Ut)/\log(2N)\) has bounded derivatives on
+the fixed support in \(t=u/U\). It can be included in the smooth
+weights, or in the approximants used for the sharp rectangles.
+These are the right-end rectangles in the long-divisor decomposition of the
+GRH Goldbach problem. The estimates here cover the indicated right-end
+scales. Control of the remaining intermediate scales is required for
+a conclusion on the full Goldbach problem.
+
+\subsection{Comparison with earlier estimates}
+Bettin--Chandee's trilinear estimate allows three arbitrary
+\(\ell^2\) coefficients and a separate fixed multiplier in the
+phase \cite[Theorem~1]{BC}. Its direct balanced \(X^2\)-saving
+threshold here is \(16/33\), obtained by putting \(p=q=\theta\)
+in the two inequalities of Proposition~\ref{prop:unbalanced}.
+Our extra structure is the M\"obius coefficient and the product
+parameter \(Nh\). Bourgain--Garaev use rational reciprocal counts
+and moment estimates to control Kloosterman sums
+\cite{BGprime,BGrings}. Our application uses reciprocal energies
+averaged over the modulus and divides the multiplier and modulus
+by their common gcd before taking the moments.
+
+Fouvry--Kowalski--Michel develop Type I and Type II estimates for
+algebraic trace functions over prime fields and apply them to
+prime and M\"obius weights \cite{FKM}. Here the modulus varies over
+all integers in a dyadic range. The local spectral input is
+Pascadi's \emph{Forum of Mathematics, Pi} paper
+\cite[Corollary~5.5 and (5.20)]{PascadiPi}. Pascadi's separate
+preprint gives arbitrary-coefficient estimates for Kloosterman
+fractions \cite{PascadiFractions}. In its Corollary~4.8, substituting
+coefficient lengths \(O(X)\), averaging length \(O(J)\) and fixed
+multiplier \(N\) gives a term \(\sqrt{NJ}/X\) in the factor
+multiplying the norm bound. At \(J\asymp H\) this term is of order
+one, and the norm prefactor evaluated with the size bounds on our
+coefficients is \(X^2J N^{o(1)}\). The direct substitution thus
+does not yield a uniform power saving over \(X^2\).
+The main small-numerator estimate of Dong--Robles--Zeindler
+\cite[Theorem~1.1]{DRZ} has the size condition \(a\ll X^{1/10}\) on the numerator
+of \(e(a\bar m/n)\). Here the numerator is \(Nh\), of order \(X^2\)
+when \(J\asymp H\). The small parameter \(J\) by itself does not
+verify their numerator condition. Shparlinski \cite{Shp} proves
+bounds for trilinear sums of Kloosterman fractions in
+parameter ranges where he improves the Bettin--Chandee bound. We record this
+as related work and leave a numerical comparison with his full
+parameter ranges open.
+
+\section{The M\"obius decomposition and completion}
+\label{sec:completion}
+
+Write \(e(t)=\exp(2\pi i t)\), \(\widehat f(\xi)=\int_{\mathbb R}f(t)e(-t\xi)\,dt\), and \((a,b)=\gcd(a,b)\), with gcds taken positive. A bar denotes an inverse in the current modulus. All summation variables are positive integers unless otherwise specified. A scale \(D\) restricts its variable to a fixed compact interval of positive multiples of \(D\). Constants may depend on those intervals and on finitely many smooth seminorms. In intermediate estimates \(N^\varepsilon\) absorbs divisor bounds, the coefficient bounds, and fixed powers of \(\log(2N)\). One may use a smaller \(\varepsilon\) in each such step. The multiplier may be any integer \(n_0\) with \(1\le n_0\le N\).
+
+For cutoffs \(R_1,R_2\ge1\), put \(u_i(m)=\mu(m)\mathbf1_{m\le R_i}\), \(v_i=\mu-u_i\), and let \(\mathbf1\) be the constant-one arithmetic function. Then
+\begin{equation}\label{eq:mobius}
+ \mu=u_1+u_2-u_1*u_2*\mathbf1+v_1*v_2*\mathbf1 .
+\end{equation}
+Indeed, \(\mu*\mathbf1=\delta_1\), since
+\(\sum_{d\mid m}\mu(d)=\prod_{p\mid m}(1-1)\) for \(m>1\), with value
+\(1\) for \(m=1\). Expanding \(v_1*v_2\), subtracting \(u_1*u_2\), and convolving
+with \(\mathbf1\) gives \(\mu-u_1-u_2\). Take \(R_1=R_2=R\).
+On the support \(a\asymp A\) with \(a>R\), the first two terms vanish. The
+negative term becomes \(-\sum_{dm=a,\ d\le R^2}d_R(d)\), where
+\(d_R(d)=\sum_{d_1d_2=d,\ d_i\le R}\mu(d_1)\mu(d_2)\) has absolute value
+at most \(\tau(d)\). The positive term becomes
+\(\sum_{\ell n=a,\ \ell,n>R}\mu(\ell)\sum_{v\mid n,\ v>R}\mu(v)\),
+whose two coefficients are bounded by \(1,\tau(n)\).
+These are the Type I and Type II pieces.
+
+Choose a smooth \(\psi\) equal to \(1\) on \([0,1]\) and \(0\) on
+\([2,\infty)\). The functions
+\(\psi(t/2^{i+1})-\psi(t/2^i)\), \(i\in\mathbb Z\), sum to \(1\) for
+\(t>0\) by telescoping. Use their products in the two factor variables.
+Only \(O((\log(2N))^2)\) pairs meet the support, since
+\(\ell n\asymp A\) and \(\ell,n>R\). In each pair rename the shorter
+factor \(\ell\) and the longer \(n\), exchanging the coefficients when
+needed. Their scales \(L,W\) satisfy \(L\gg R,\ L\ll A^{1/2}\), and
+\(LW\asymp A\). Both \(>R\) conditions are retained in the coefficients.
+
+For a smooth weight \(\Phi\) on scales \(A,B,J\) in \((a,b,h)\), the
+split weight is a smooth function \(G(v_1,v_2,v_3,v_4)\) of
+\((\ell/L,n/W,b/B,h/J)\). It is the dyadic factors times
+\(\Phi((LW/A)v_1v_2,v_3,v_4)\). Extend it smoothly by zero outside fixed
+compact intervals, using auxiliary cutoffs in each coordinate as needed.
+Fourier inversion writes it as
+\[
+ \int_{\mathbb R^4}\widehat G(\mathbf t)\,
+ e(t_1\ell/L)e(t_2 n/W)e(t_3 b/B)e(t_4 h/J)\,d\mathbf t .
+\]
+Integration by parts gives
+\(|\widehat G(\mathbf t)|\le C_m(1+|\mathbf t|)^{-m}\) for \(m>4\).
+Absorb each exponential into its own variable's coefficient, with
+absolute values unchanged. Keep fixed interval supports for the
+coefficients by inserting indicators equal to \(1\) on the support of
+\(G\). This gives an absolutely convergent integral of blocks of the form
+\begin{equation}\label{eq:separated}
+ \sum_{\substack{\ell\asymp L,\ n\asymp W,\ b\asymp B,\ h\asymp J\\
+                  (\ell n,b)=1}}
+ \alpha_\ell\gamma_n\beta_b\nu_h\,e\!\left(\frac{n_0h\overline{\ell n}}b\right).
+\end{equation}
+The Fourier \(L^1\) cost is bounded by finitely many seminorms. When
+Cauchy--Schwarz eliminates \(\gamma_n,\beta_b\), replace their support
+indicators in the remaining nonnegative second moment by fixed smooth
+nonnegative majorants. Their derivatives are independent of the
+Fourier parameters.
+
+For integers \(P,k\) and \(b\ge1\), define
+\[
+ \operatorname{Kl}(P,k;b)=\sum_{v\bmod b}^{*}e((P\bar v+kv)/b).
+\]
+The full-modulus Weil bound in the form valid for all \(b\) and all
+integral arguments, including imprimitive ones, is
+\begin{equation}\label{eq:weil}
+ |\operatorname{Kl}(P,k;b)|\le \tau(b)b^{1/2}(P,k,b)^{1/2}
+ \qquad\text{\cite[Chapter~11]{IK}}.
+\end{equation}
+For \(k=0\) inversion permutes the units. Expanding their indicator by
+M\"obius inversion gives \(c_b(P)=\sum_{d\mid(b,P)}d\mu(b/d)\).
+For \(P\ne0\) we use
+\begin{equation}\label{eq:ram-average}
+ |c_b(P)|\le(b,P),\qquad
+ \sum_{b\asymp B}(P,b)\ll B\tau(|P|).
+\end{equation}
+The formula for \(c_b\) is multiplicative in \(b\) and at \(p^\nu\)
+gives \(\varphi(p^\nu),-p^{\nu-1},0\) according as \(v_p(P)\) is at
+least \(\nu\), equals \(\nu-1\), or is smaller. For the average,
+expand \((P,b)=\sum_{d\mid(P,b)}\varphi(d)\), obtained by grouping
+\(1,\ldots,(P,b)\) by their gcd with \((P,b)\). Only \(d\ll B\) arise
+and their multiples number \(O(B/d)\).
+
+For every \(K>0\) and \(M>1\),
+\begin{equation}\label{eq:weil-group}
+ \sum_{k\ne0}(P,k,b)^{1/2}(1+|k|/K)^{-M}
+ \ll_M K\sum_{d\mid b}d^{-1/2}.
+\end{equation}
+Bound the gcd square root by \(\sum_{d\mid(b,k)}d^{1/2}\). For
+\(k=dt\ne0\), comparison of \((1+dx/K)^{-M}\) with its integral on
+\(x\ge0\) bounds the sum over \(t\ge1\) by \(K/(d(M-1))\). This
+includes \(b\mid P\). If \(K<1\), one can multiply the right side by
+\(K^E\) for any fixed \(E>0\) by increasing the decay exponent on the
+left by \(E\), since \(1+|k|/K\ge1/K\).
+
+\subsection{Type I}
+For fixed \(d,b,h\), the Type I sum vanishes if \((d,b)>1\).
+Otherwise \(m\) is on scale \(Y=A/d\), with smooth weight \(f(m/Y)\)
+and phase \(e(n_0h\bar d\,\bar m/b)\).
+Poisson summation in each residue class modulo \(b\) gives
+\[
+ \frac{Y}{b}\sum_{k\in\mathbb Z}
+   \widehat f(kY/b)\operatorname{Kl}(n_0h\bar d,k;b).
+\]
+The residue \(n_0h\bar d\) has gcd \((n_0h,b)\) with \(b\).
+The zero frequency is \(\ll_\varepsilon YN^\varepsilon\) upon summing
+over \(b\) by \eqref{eq:ram-average}. Summation over \(h,d\) gives
+\(\ll_\varepsilon JA N^\varepsilon\), since
+\(\sum_{d\le R^2}d^{-1}\ll\log(2N)\).
+At nonzero frequencies, \eqref{eq:weil}--\eqref{eq:weil-group}
+with \(K=B/Y\) give \(\ll_\varepsilon B^{1/2}N^\varepsilon\)
+per \(b\), since \(Y/b\) cancels \(K\) up to bounded factors.
+Summing gives \(\ll_\varepsilon JR^2 B^{3/2}N^\varepsilon\).
+If all \(Y\gg BN^\delta\) for a fixed \(\delta>0\), the improved
+decay following \eqref{eq:weil-group} makes this part smaller than any
+fixed negative power of \(N\), by using sufficiently many derivatives.
+
+\subsection{The elementary Type II second moment}
+\label{sec:second}
+Apply Cauchy--Schwarz on \((b,n)\) in \eqref{eq:separated}. Its
+coefficient square sum is \(\ll_\varepsilon BW N^\varepsilon\).
+The remaining second moment, with smooth nonnegative majorants
+\(w_b(b/B),w_n(n/W)\), expands over \(h_1,h_2,\ell_1,\ell_2\).
+Put \(D=\ell_1\ell_2\) and \(\Delta=h_1\ell_2-h_2\ell_1\).
+Then \((D,b)=1\) and the phase is \(e(n_0\Delta\overline D\,\bar n/b)\).
+When \(\Delta=0\) the number of tuples is \(\ll_\varepsilon JL N^\varepsilon\):
+for each of the \(O(JL)\) choices of \((h_1,\ell_2)\), the number of
+factorizations \(h_2\ell_1=h_1\ell_2\) is at most \(\tau(h_1\ell_2)\).
+The diagonal moment is thus \(\ll_\varepsilon BWJL N^\varepsilon\).
+All coefficient products cost at most \(N^\varepsilon\).
+
+For \(\Delta\ne0\), completion of the \(n\) sum gives, per tuple,
+\begin{equation}\label{eq:second-poisson}
+ \sum_{\substack{b\asymp B\\(b,D)=1}}
+ w_b(b/B)\frac{W}{b}
+ \sum_{k\in\mathbb Z}\widehat w_n(kW/b)
+ \operatorname{Kl}(n_0\Delta\overline D,k;b).
+\end{equation}
+For \(k=0\) the sum over \(b\) is \(\ll_\varepsilon WN^\varepsilon\)
+by \eqref{eq:ram-average}, since \(n_0\Delta\ne0\).
+For \(k\ne0\) it is \(\ll_\varepsilon B^{3/2}N^\varepsilon\)
+by \eqref{eq:weil-group} with \(K=B/W\), including \(W>B\).
+If \(W\gg BN^\delta\) these frequencies have arbitrarily strong power decay.
+There are \(O(J^2L^2)\) tuples in each off-diagonal piece. Multiplying
+each bound by the outer \(BW N^\varepsilon\) and taking square roots
+gives respective ratios to \(AB\) bounded by \(N^\varepsilon\) times
+\[
+ (J/L)^{1/2},\qquad J/B^{1/2},\qquad
+ J L^{1/2}B^{1/4}/A^{1/2}.
+\]
+This uses \(LW\asymp A\) in each normalization.
+
+\subsection{The spectral estimate for the short Type II band}
+\label{sec:spectral-completion}
+
+We use the Kloosterman sum convention
+\[
+ S(m,n;b)=\sum_{v\bmod b}^{*}e\!\left(\frac{m\overline v+nv}{b}\right).
+\]
+In the completed second moment, let the two terms have indices
+\((h_1,\ell_1)\) and \((h_2,\ell_2)\), and put
+\[
+ D=\ell_1\ell_2,\qquad
+ \Delta=h_1\ell_2-h_2\ell_1.
+\]
+The phase after expansion is \(e(P\Delta\overline D\,\overline n/b)\),
+where \(P=N\) on the balanced box. The proof below also allows any
+positive integer \(P\le N\) for the numerator. If the signed frequencies
+are negative, we use their absolute values for their scale and keep
+their sign in \(\Delta\). All four variables are nonzero. After Poisson
+in \(n\) with a smooth cutoff \(V(n/W)\) and a smooth modulus cutoff
+\(U(b/B)\), the term for this quadruple and \(k\) is
+\[
+ \sum_{(b,D)=1}\frac{W}{b}U(b/B)\widehat V(kW/b)
+           S(P\Delta\overline D,k;b),
+ \qquad
+ \widehat V(\zeta)=\int_{\mathbb R}V(v)e(-v\zeta)\,dv.
+\]
+Here \(U,V\) are fixed smooth cutoffs supported on compact subsets
+of \((0,\infty)\). As in the elementary second moment, the Cauchy--Schwarz
+factor outside this moment is \(BW\), and the arithmetic coefficients
+on the quadruples are \(O_\varepsilon(N^\varepsilon)\).
+We treat \(\Delta\ne0\), \(k\ne0\), and write \(m=|P\Delta|\) and
+\(G=(D,m)\). Negating both arguments of a classical Kloosterman sum
+leaves it unchanged by the substitution \(v\mapsto -v\).
+Thus for a fixed sign of \(k\) we can use \(m\) as the positive argument,
+with the corresponding consistent sign on the second argument.
+
+\paragraph{The cusps and the completed weight.}
+In \(\Gamma_0(D)\) take the cusps \(\infty,1=1/1\) and the matrices
+\[
+ \sigma_\infty=I,\qquad
+ \sigma_1=\begin{pmatrix}\sqrt D&-1/\sqrt D\\
+                           \sqrt D&0\end{pmatrix}.
+\]
+These agree with the normalization in \cite[(3.9)]{PascadiPi}
+for \(D>1\), and for \(D=1\) the second matrix differs by an integral
+translation from that normalization. The cusp \(1\) has width \(D\)
+before scaling, since conjugation of a translation by
+\(\bigl(\begin{smallmatrix}1&0\\1&1\end{smallmatrix}\bigr)\)
+makes its lower left entry the negative of the translation parameter.
+Both cusps have \(\mu(\mathfrak a)=1/D\) in Pascadi's notation. They
+are the Atkin--Lehner cusps corresponding to \(s=D\) and \(s=1\),
+respectively, in the parametrization \(rs=D\), \((r,s)=1\).
+
+For \(\gamma=\bigl(\begin{smallmatrix}a_0&b_0\\D c_0&d_0\end{smallmatrix}\bigr)
+\in\Gamma_0(D)\), the lower left entry of \(\gamma\sigma_1\) is
+\(b\sqrt D\), where \(b=Dc_0+d_0\), and its lower right entry is
+\(u\sqrt D\), where \(u=-c_0\). The determinant implies
+\[
+ (b,D)=1,\qquad
+ (a_0+b_0)d_0-b_0 b=1,\qquad d_0=b+Du.
+\]
+Thus \(u\) is a unit modulo \(b\) and
+\(a_0+b_0\equiv\overline D\,\overline u\pmod b\).
+Conversely, if \(b>0\), \((b,D)=1\), and \(u\) is a unit modulo \(b\),
+choose a representative for \(u\), put \(c_0=-u\), \(d_0=b+Du\),
+take \(v\) with \(v d_0\equiv1\pmod b\), and set
+\(b_0=(v d_0-1)/b\) and \(a_0=v-b_0\). These entries give a matrix of
+determinant \(1\) in \(\Gamma_0(D)\). The lower right classes modulo
+\(b\sqrt D\) are therefore exactly the classes \(u\sqrt D\) just
+described, and each determines its upper left class. The definition of
+the generalized sum gives
+\[
+ S_{\infty,1}(m,k;b\sqrt D)=S(m\overline D,k;b)
+ \quad ((b,D)=1),
+\]
+which is the case \(r=D,s=1\) of \cite[(3.12)]{PascadiPi}.
+The modulus scale in that formula is \(C=B\sqrt D\).
+
+Partition the positive integers \(|k|\) into \(K<|k|\le2K\)
+for dyadic \(K\ge1/2\), as in the \(n\)-sum of Pascadi's
+corollary. Choose a smooth \(\chi\) supported in a fixed compact subset
+of \((0,\infty)\) and equal to one on \([1,2]\). On each piece put
+\[
+ \begin{gathered}
+ z=\frac{|k|}{K},\qquad y=\frac{b}{B}=\frac{c}{C},\qquad
+ t=\frac{KW}{B},\\
+ F_{t,\pm}(z,y)=\chi(z)\frac{U(y)}{y}\widehat V(\pm tz/y),
+ \end{gathered}
+\]
+where the sign in \(F_{t,\pm}\) is the original sign of \(k\).
+The weight in the spectral estimate is \(F_{t,\pm}\), with the
+constant \(W/B\) outside. Each \(\partial_z^a\partial_y^b F_{t,\pm}\)
+is a finite sum of bounded smooth factors on a fixed compact set times
+\(t^i\widehat V^{(i)}(\pm tz/y)\), with \(i\le a+b\).
+The transform \(\widehat V^{(i)}\) is the Fourier transform of
+\((-2\pi i v)^i V(v)\), so \(M+i\) integrations by parts bound
+each such product by \(O_{a,b,M}((1+t)^{-M})\).
+Extending by zero and taking the Fourier transform in \(z\) gives
+\[
+ \widetilde F_{t,\pm}(\xi,y)=
+    \int_{\mathbb R}F_{t,\pm}(z,y)e(-\xi z)\,dz,\qquad
+ F_{t,\pm}(z,y)=\int_{\mathbb R}
+    \widetilde F_{t,\pm}(\xi,y)e(\xi z)\,d\xi.
+\]
+Integrating by parts in \(z\) also gives, for all nonnegative integers
+\(b,M,Q\),
+\begin{equation}
+ |\partial_y^b\widetilde F_{t,\pm}(\xi,y)|
+   \ll_{b,M,Q}(1+t)^{-M}(1+|\xi|)^{-Q}.
+ \label{eq:spectral-schwartz}
+\end{equation}
+For the Bessel form, set
+\[\Psi_t(z,u)=\sqrt z\,F_{t,\pm}(z,\sqrt z/u),
+  \qquad U_{\rm Bes}=C/\sqrt{mK}.\]
+Let \(\widetilde\Psi_t\) be the Fourier transform in \(z\).
+Fourier inversion gives
+\[
+ \begin{aligned}
+ F_{t,\pm}(|k|/K,c/C)
+ &=\frac Cc\int_{\mathbb R} e(\xi |k|/K)
+ \frac{\widetilde\Psi_t(\xi,v/(4\pi/U_{\rm Bes}))}
+      {v/(4\pi/U_{\rm Bes})}\,d\xi,\\
+ v&=\frac{4\pi\sqrt{m|k|}}c .
+ \end{aligned}
+\]
+The support of \(\Psi_t\) has \(z,u\) in fixed compact subsets of
+\((0,\infty)\), so the same integration by parts bounds its Fourier
+transform and every fixed \(u\)-derivative. This supplies the
+Fourier separation used in \cite[(5.21)--(5.26)]{PascadiPi} and
+preserves rapid decay in \(t\).
+
+\paragraph{The spectral input and its parameters.}
+We invoke \cite[Corollary 5.5, (5.20)]{PascadiPi}, numbered
+Corollary 15 in arXiv:2404.04239v3. In its notation, \(q\) is the
+level, \(\mathcal N\) the length of the positive spectral argument,
+\(C\) the modulus scale, and \(Z_{\rm aux}\) the auxiliary smoothness
+parameter. For a smooth weight \(\mathcal F\) supported with both
+arguments of order \(1\), with
+\(\partial_z^i\partial_y^j\mathcal F\ll_{i,j,\varepsilon}
+Z_{\rm aux}^{i\varepsilon}\), the full estimate is
+\begin{align}
+ &\left|
+ \sum_{\mathcal N<n\le2\mathcal N}a_n
+ \sum_{c\in\mathcal C_{\mathrm{ab}}}
+ \mathcal F(n/\mathcal N,c/C)S_{\mathrm{ab}}(m,\pm n;c)
+ \right| \notag\\
+ &\quad\ll_\varepsilon (qm\mathcal N C Z_{\rm aux})^{O(\varepsilon)}
+ (1+\mathcal T)^{2\vartheta(q)}
+ \frac{C^2 A_{\mathcal N}}{C+\sqrt{m\mathcal N}}\notag\\
+ &\qquad{}\times
+ \left(1+\frac{m\mathcal N}{C^2}+
+       \frac{\sqrt{(q,m)m}}q\right)^{1/2}
+ \left(1+\frac{m\mathcal N}{C^2}+
+       \frac{\mathcal N}q\right)^{1/2}.
+ \label{eq:pascadi-completion}
+\end{align}
+The cusps have \(\mu(\mathrm a)=\mu(\mathrm b)=1/q\), with
+the scaling above. The parameters for \(a_n=e(n\alpha)\) are
+\(A_{\mathcal N}=\sqrt{\mathcal N}\), \(Z_{\rm aux}=1\), and
+\(Y_{\mathcal N}=\mathcal N/T_{\mathcal N}(\alpha)\) by (5.18), where
+\(T_{\mathcal N}(\alpha)=
+\min_{v\ge1,\ v\in\mathbb Z}(v+2\mathcal N\|v\alpha\|)\).
+In particular \(T_K(0)=1\), and inserting \(v=1\) shows that
+\(T_K(\xi/K)\le1+2|\xi|\).
+In the normalization of (5.20), (5.25), and (5.27) one has
+\[
+ \begin{aligned}
+ \mathcal T &=
+ \frac{C}{\sqrt{\max(m,q^2/(q,m))\,\max(\mathcal N,q)\,
+                        Y_{\mathcal N}}}
+   =\frac{C/\sqrt{m\mathcal N}}{\sqrt{X_1X_2(0)}},\\
+ X_1&=\max\!\left(1,\frac{q^2}{(q,m)m}\right),\qquad
+ X_2(0)=\max(1,q/\mathcal N)Y_{\mathcal N}.
+ \end{aligned}
+\]
+In particular, writing \(\mathcal T=\mathcal T_0/\sqrt{Y_{\mathcal N}}\)
+gives \(\mathcal T_0\le C\sqrt{(q,m)}/q^{3/2}\).
+The quantity \(\vartheta(q)\) is the maximum exceptional spectral
+parameter at level \(q\), with zero used for an empty exceptional
+spectrum, and \(\vartheta(q)\le7/64\) by the Kim--Sarnak bound
+\cite[Theorem 3.3]{PascadiPi}.
+
+We set \(\mathcal N=K\), \(q=D\), and take \(a_n=1\) when (5.20)
+is applied directly with weight \(F_{t,\pm}\), normalized using the
+\((1+t)^{-M}\) bounds. Then \(X_2(0)=\max(K,D)\) exactly and
+\begin{equation}
+ \mathcal T\le\frac{B\sqrt D}{\sqrt{mK}\sqrt{\max(K,D)}}
+              \le\frac{B}{\sqrt{mK}}.
+ \label{eq:spectral-level-cancellation}
+\end{equation}
+The same bound after integration follows from the explicit separated
+form. Insert a fixed cutoff in \(z\) equal to one on the support of
+\(\chi\) and use the first Fourier integral with
+\(\alpha=\xi/K\). In this case
+\(X_2(0)=\max(K,D)/T_K(\xi/K)\); the resulting factor
+\((1+2|\xi|)^{\vartheta(D)}\) in the bound is integrable against
+\eqref{eq:spectral-schwartz}. In the Bessel version the perturbed
+large-sieve parameter in (5.25) is
+\(\max(K,D)/(1+|\xi|^2)\) for the zero base twist, which is
+controlled in the same way by rapid Fourier decay. If this displayed
+value falls below \(1\), one may use the unweighted spectral large
+sieve at \(1\).
+
+\paragraph{Length, exceptional factor and the completed sum.}
+First suppose \(B=X\), \(LW=X\), and \(P=N\).
+Write \(X=N^x\), \(L=N^s\), \(H=X^2/N=N^{j_0}\), and assume
+\(J\le H\), \(j_0\le x/8\), \(j_0\le s\le x/2\).
+All the scales in the short spectral band meet these inequalities.
+We have \(D\asymp L^2\), \(N\le m\ll NJL\), and \(K=tL\).
+Consequently
+\[
+ \frac{mK}{C^2}\ll t\frac{NJ}{X^2}\le t,\qquad
+ \frac KD\ll t/L\le t,\qquad
+ \mathcal T\le (H/K)^{1/2}.
+\]
+In \eqref{eq:pascadi-completion} use
+\(C^2/(C+\sqrt{mK})\le C\), \(A_K=\sqrt K\), and
+\(\sqrt{1+a+b}\le 1+\sqrt a+\sqrt b\) for \(a,b\ge0\).
+After enlarging \(M\) in \eqref{eq:spectral-schwartz}, either sign
+of the \(K\)-piece, including the factor \(W/X\), is
+\begin{equation}
+ \ll_{\varepsilon,M} N^\varepsilon(1+t)^{-M}
+ W L \sqrt K(1+\mathcal T)^{2\vartheta(D)}
+ \left(1+\frac{G^{1/4}m^{1/4}}{L}\right).
+ \label{eq:spectral-piece}
+\end{equation}
+For \(0\le\lambda=2\vartheta(D)\le7/32\), we have
+\(\sqrt K(1+\mathcal T)^\lambda\ll
+\sqrt K+K^{(1-\lambda)/2}H^{\lambda/2}\).
+Since \(H\le L\), this is
+\(\ll\sqrt L(1+t)^{1/2}\). The rapid decay for \(K>L\)
+and the \(O(\log(2N))\) blocks \(K\le L\) give a total at most
+\begin{equation}
+ N^\varepsilon W L^{3/2}
+       \left(1+G^{1/4}X^{1/2}L^{-3/4}\right)
+ \ll_\varepsilon N^\varepsilon W X^{1/2}L^{3/4}G^{1/4}.
+ \label{eq:spectral-fixed-tuple}
+\end{equation}
+Here \(m\ll NJL\le X^2 L\) and \(X^{1/2}L^{-3/4}\ge X^{1/8}\ge1\).
+To justify the \(N^\varepsilon\) factor uniformly over the unbounded
+dyadic sum, use \((D m K C)^{O(\varepsilon)}
+\ll N^{O(\varepsilon)}(1+t)^{O(\varepsilon)}\) before choosing the
+decay order and then use a smaller input \(\varepsilon\).
+
+The same row is valid even if the larger parameter
+\(U_{\rm Bes}=C/\sqrt{mK}\) is retained in
+\eqref{eq:spectral-piece}. Indeed, the term there with
+\(G^{1/4}m^{1/4}/L\) leads, apart from its factors independent
+of \(m,K\), to
+\[
+ \sqrt K m^{1/4}
+    +(XL)^\lambda K^{(1-\lambda)/2}m^{1/4-\lambda/2}.
+\]
+Both exponents on \(m\) are positive. Substitute \(m\ll NJL\);
+upon writing \(K=tL\), the second term is bounded by a constant
+times
+\[
+ (1+t)^{1/2}\sqrt L\,(NJ L)^{1/4}(H/J)^{\lambda/2}
+ \le (1+t)^{1/2}\sqrt L\,(X^2 L)^{1/4},
+\]
+because \((J/H)^{1/4-\lambda/2}\le1\).
+The first term has the same bound without \( (H/J)^{\lambda/2}\).
+For the term \(1\) in \eqref{eq:spectral-piece}, use \(m\ge N\)
+to get
+\[
+ \sqrt K(1+U_{\rm Bes})^\lambda
+ \ll \sqrt L(1+t)^{1/2}\bigl(1+(HL)^{\lambda/2}\bigr).
+\]
+The inequality
+\[
+ \frac{\lambda}{2}(j_0+s)\le
+ \frac{7}{64}\left(\frac x8+\frac x2\right)
+ <\frac x8\le\frac x2-\frac{3s}{4}
+\]
+holds for \(x>0\) and dominates this last loss by
+\(X^{1/2}L^{-3/4}\). The bounds include \(K=1\), \(J=1\), and
+the endpoint \(j_0=x/8\).
+
+\paragraph{The average over quadruples.}
+For every \(\Delta\ne0\), and for every \(P\) including integers
+with many small prime factors,
+\begin{align*}
+ (D,P\Delta)^{1/4}
+ &\le(\ell_1,P)^{1/4}(\ell_2,P)^{1/4}
+       (\ell_1,\Delta)^{1/4}(\ell_2,\Delta)^{1/4}\\
+ &\le(\ell_1,P)^{1/4}(\ell_2,P)^{1/4}
+       (\ell_1,\ell_2)^{1/2}
+       (\ell_1,h_1)^{1/4}(\ell_2,h_2)^{1/4}.
+\end{align*}
+The first inequality uses \((uv,w)\mid(u,w)(v,w)\) and
+\((u,vw)\mid(u,v)(u,w)\), both verified by taking the valuation
+at each prime. For the second, reduce \(\Delta\) modulo each
+\(\ell_i\) and use the second divisibility again. For each \(\ell\),
+\[
+ \sum_{1\le |h|\ll J}(\ell,h)^{1/4}
+ \ll\sum_{\substack{e\mid\ell\\ e\ll J}} e^{1/4}\frac{J}{e}
+ \ll J\tau(\ell).
+\]
+To see the first inequality, replace the greatest common divisor
+to the \(1/4\) power by the sum of the \(1/4\) powers of its divisors
+and count nonzero multiples of \(e\).
+Likewise,
+\[
+ \begin{aligned}
+ \sum_{\ell_1,\ell_2\asymp L}(\ell_1,\ell_2)
+ &\ll L^2\sum_{e\ll L}\frac1e\ll L^2\log(2L),\\
+ \sum_{\ell\asymp L}(\ell,P)^{1/2}
+ &\ll L\sum_{d\mid P}d^{-1/2}\le L\tau(P).
+ \end{aligned}
+\]
+In the first sum we majorize a greatest common divisor by the sum
+of its divisors and count pairs of multiples. In the second we
+majorize its square root by the sum of the square roots of its divisors
+and count multiples. Cauchy--Schwarz on the \((\ell_1,\ell_2)\) sum
+now gives
+\begin{equation}
+ \sum_{\substack{\ell_1,\ell_2\asymp L,\ |h_i|\asymp J\\\Delta\ne0}}
+ (D,P\Delta)^{1/4}
+ \ll_\varepsilon J^2 L^2 N^\varepsilon.
+ \label{eq:spectral-gcd-average}
+\end{equation}
+In particular the bound uses only divisor bounds and applies to
+primorial and factorial \(P\) with the same constants.
+
+Using \eqref{eq:spectral-fixed-tuple} and
+\eqref{eq:spectral-gcd-average} gives a bound
+\(N^\varepsilon J^2 W X^{1/2}L^{11/4}\) for the portion of
+the completed second moment under consideration. Multiplying by
+the outside factor \(XW\) and taking a square root gives
+\[
+ N^\varepsilon J W X^{3/4}L^{11/8}
+   = N^\varepsilon J X^{7/4}L^{3/8}.
+\]
+After division by \(X^2\) the exponent is
+\(j+3s/8-x/4\). The term \(1\) in
+\eqref{eq:spectral-piece}, with the precise exceptional parameter,
+separately gives \(N^\varepsilon J^2WL^{7/2}\) before the outside
+factor and square root. Its normalized exponent is
+\(j+3s/4-x/2\), which is at most \(j+3s/8-x/4\), since
+\(3s/8-x/4\le-x/16\). The diagonal and the \(k=0\) terms
+retain their elementary estimates.
+
+\paragraph{Stability at the Poisson scales for rectangles.}
+For use with the outer Poisson summation, suppose
+\(Z=N^{x'}\), \(L W=A\), \(L\ll\sqrt Z\),
+and \(ZN^{-\rho}\ll A,B\ll Z\). Assume
+\(J\le N^c\), \(Z^2/P\le N^c\), and \(0\le c\le x'/8\), and
+write \(s=\log_N L\ge c\). The natural frequency length is
+\(K_0=B/W=BL/A\), so
+\(L N^{-\rho}\ll K_0\ll L N^\rho\), and \(K=tK_0\).
+The estimates for the two length ratios become
+\[
+ \frac{mK}{C^2}\ll t\,\frac{PJ}{AB},\qquad
+ \frac KD\ll t\,N^\rho/L .
+\]
+In the application \(P=N/d_0\), \(Z=X/d_0\),
+and \(J\ll (Z^2/P)N^\delta\). Thus the right sides are
+\(\ll t N^{2\rho+\delta}\) and \(\ll tN^\rho\), respectively.
+Also \(C\asymp BL\),
+\(\mathcal T\le B/\sqrt{mK}\ll(N^c/K)^{1/2}\), and
+\(m\ll Z^2 L N^\delta\). The argument bounding
+\(\sqrt K(1+\mathcal T)^\lambda\) now gives
+\(\ll\sqrt L N^{\rho/2}(1+t)^{1/2}\).
+These substitutions in the full two factors of
+\eqref{eq:pascadi-completion} cost \(N^{O(\rho+\delta)}\).
+In particular the bound for an individual quadruple is
+\(N^{O(\rho+\delta)+\varepsilon}W Z^{1/2}L^{3/4}G^{1/4}\).
+Equation \eqref{eq:spectral-gcd-average} still applies. The outside
+factor is \(BW\), hence the bound after taking the square root is
+\begin{equation}
+ \ll_\varepsilon N^{O(\rho+\delta)+\varepsilon}
+             J Z^{7/4}L^{3/8},
+ \label{eq:spectral-rectangular}
+\end{equation}
+using \(B\ll Z\) and \(W=A/L\ll Z/L\).
+
+\section{Averaged reciprocal energies and the higher-moment bounds}
+\label{sec:higher-moments}
+
+The rational reciprocal-energy estimate is due to Karatsuba and is
+recorded by Bourgain and Garaev \cite[Lemma~4]{BGprime}. We first give the
+least-common-multiple argument and then average over the actual moduli.
+For comparison, Bourgain and Garaev \cite{BGrings} study reciprocal
+energies and multilinear Kloosterman sums at a given general modulus.
+
+\begin{lemma}[Karatsuba's least-common-multiple bound]
+\label{lem:target-lcm}
+Let \(f_1,\ldots,f_m\) be positive integers, let
+\(\sigma_1,\ldots,\sigma_m\in\{-1,1\}\), and set
+\(M=\operatorname{lcm}(f_1,\ldots,f_m)\).
+If \(\sum_{i=1}^m \sigma_i/f_i=0\), then
+\[
+ M^2\ \bigm|\ \prod_{i=1}^m f_i .
+\]
+\end{lemma}
+\begin{proof}
+Multiplication by \(M\) gives \(\sum_i \sigma_i(M/f_i)=0\) in
+\(\mathbb Z\).
+Fix a prime \(p\mid M\) and write \(v=v_p(M)=\max_i v_p(f_i)\).
+If exactly one index attains \(v\), then exactly one summand of this
+integer relation is a unit modulo \(p\), which is impossible.
+Thus at least two indices attain \(v\), and
+\(v_p(\prod_i f_i)=\sum_i v_p(f_i)\ge 2v\).
+This holds for every prime dividing \(M\), proving the divisibility.
+\end{proof}
+
+For \(k\in\{2,3\}\), let \(E_{q,k}(T)\) count ordered tuples
+\(f_1,\ldots,f_{2k}\), all of size \(T\) and coprime to \(q\), with
+\[
+ \bar f_1+\cdots+\bar f_k
+    \equiv \bar f_{k+1}+\cdots+\bar f_{2k}\pmod q .
+\]
+The intervals defining size \(T\) lie in a fixed positive multiple of
+\([T,2T]\). All lengths in this proof are at most a fixed power of \(N\).
+We will use \(\tau(m)\ll_\epsilon m^\epsilon\) for positive integers
+\(m\). Indeed, in the prime factorization of \(m\), for
+\(p\ge 2^{1/\epsilon}\) and \(a\ge0\) one has \(a+1\le 2^a\le
+p^{\epsilon a}\); for each of the finitely many smaller primes the
+supremum of \((a+1)p^{-\epsilon a}\) is finite. By choosing the input
+\(\epsilon\) small enough, each fixed product of divisor bounds costs
+\(O_\varepsilon(N^\varepsilon)\).
+
+For a tuple satisfying the corresponding equality over \(\mathbb Q\),
+Lemma~\ref{lem:target-lcm} gives
+\(M\le(\prod_i f_i)^{1/2}\ll_k T^k\).
+Each \(f_i\) divides \(M\), so the total number of such tuples is bounded
+by
+\[
+ \sum_{M\ll_k T^k}\tau(M)^{2k}\ll_{k,\varepsilon}T^kN^\varepsilon .
+\]
+There are \(O(Q)\) moduli \(q\asymp Q\) for \(Q\gg 1\), so these tuples
+contribute \(O_{k,\varepsilon}(QT^kN^\varepsilon)\).
+For each remaining tuple, form the nonzero integer
+\[
+ F=\sum_{i=1}^{2k}\sigma_i\prod_{r\ne i} f_r,\qquad
+ \sigma_i=
+ \begin{cases}
+   1&i\le k,\\
+  -1&i>k .
+ \end{cases}
+\]
+Multiplication of the congruence by \(\prod_i f_i\) shows that
+\(q\mid F\), with \(\lvert F\rvert\ll_k T^{2k-1}\).
+There are \(O_\varepsilon(N^\varepsilon)\) possible \(q\) for any such
+tuple, and \(O(T^{2k})\) tuples. Consequently
+\begin{equation}
+ \sum_{q\asymp Q}E_{q,k}(T)
+    \ll_{k,\varepsilon}N^\varepsilon(QT^k+T^{2k}).
+ \label{eq:target-mean-energy}
+\end{equation}
+This estimate also holds with any subset of the moduli on the left.
+
+Write \(e_q(v)=\exp(2\pi i v/q)\).
+In a separated Type II block, let \(d\) denote the variable of length
+\(T\) whose reciprocal is placed in the moment and let \(f\) denote the
+other variable, of length \(Y\). The modulus variable \(b\) is of size
+\(X\); the uniform estimate below also applies with any other modulus
+length in place of \(X\).
+The block has the form
+\[
+ \sum_{b\asymp X}\beta_b'
+ \sum_{\substack{d\asymp T,\ f\asymp Y,\ h\asymp J\\(df,b)=1}}
+       a_d c_f w_h\, e_b(Nh\bar d\bar f),
+\]
+where all weights are bounded by \(O_\varepsilon(N^\varepsilon)\).
+Signed frequencies can be split according to the sign of \(h\); it
+suffices to consider one sign with \(\lvert h\rvert\asymp J\).
+For each divisor \(g\mid N\), let \(S_g\) be the part with \((b,N)=g\).
+Write \(b=gq\) and \(Q=X/g\). If a prime divides \(q\), its valuation in
+\(b\) exceeds its valuation in \(g\), so its valuation in \(N\) equals
+its valuation in \(g\). Hence \((N/g,q)=1\).
+The character reduces as
+\[
+  e_b(Nh\bar d\bar f)=e_q((N/g)h\bar d\bar f)
+\]
+with the right-hand inverses taken modulo \(q\). For \(q=1\) the
+character is identically one and all congruences have their single
+residue class. The dyadic interval for \(q\) contains only positive
+integers and is empty unless \(Q\gg1\).
+
+For a fixed \(g,q\), extend the weights by zero to enforce
+\((d,b)=(f,b)=1\), and define functions on \(\mathbb Z/q\mathbb Z\) by
+\[
+ A_q(z)=\sum_{\substack{d\asymp T\\(d,b)=1}}
+                a_d e_q((N/g)z\bar d),\qquad
+ r_q(z)=
+  \sum_{\substack{\lvert h\rvert\asymp J,\ f\asymp Y\\
+                   (f,b)=1,\ h\bar f\equiv z\;(\mathrm{mod}\ q)}} w_h c_f .
+\]
+Here the sum for \(r_q\) uses the chosen sign of \(h\).
+The block for \(b\) equals \(\beta_b'\sum_z r_q(z)A_q(z)\).
+With counting-measure norms, H\"older's inequality gives the bound
+\[
+ |\beta_b'|\|r_q\|_{2k/(2k-1)}\|A_q\|_{2k}.
+\]
+Expand \(\lvert A_q(z)\rvert^{2k}\) and sum over \(z\).
+Orthogonality on \(\mathbb Z/q\mathbb Z\) imposes
+\[
+ (N/g)(\bar d_1+\cdots+\bar d_k-
+ \bar d_{k+1}-\cdots-\bar d_{2k})\equiv0\pmod q.
+\]
+The coprimality of \(N/g\) to \(q\) removes this factor. Since each
+\(d_i\) is coprime to \(b\) and hence to \(q\), taking absolute values
+of the surviving weight products gives
+\begin{equation}
+ \|A_q\|_{2k}^{2k}\ll_\varepsilon N^\varepsilon q\,E_{q,k}(T).
+ \label{eq:target-orthog-moment}
+\end{equation}
+
+The triangle inequality gives
+\(\|r_q\|_1\ll_\varepsilon N^\varepsilon JY\).
+Expansion of \(\|r_q\|_2^2\) requires
+\(h_1\bar f_1\equiv h_2\bar f_2\pmod q\), equivalently
+\(h_1 f_2\equiv h_2 f_1\pmod q\), since \(f_1,f_2\) are units.
+The two integer products are nonzero and lie in an interval of length
+\(O(JY)\). For each of the \(O(JY)\) possible first products there are
+\(O(1+JY/q)\) possible second products in its residue class. A given
+nonzero product \(m\) has \(O(\tau(|m|))\) ordered factorizations of
+the specified sign. Bounding the weights and dropping the coprimality
+conditions after the congruence has been converted into products yields
+\[
+ \|r_q\|_2^2\ll_\varepsilon N^\varepsilon JY(1+JY/q).
+\]
+To interpolate, put \(p_k=2k/(2k-1)\) and write
+\[
+ \lvert r_q\rvert^{p_k}=
+ (\lvert r_q\rvert)^{p_k(1-1/k)}
+ (\lvert r_q\rvert^2)^{p_k/(2k)}.
+\]
+The two exponents on the factors add to one. H\"older and the
+\(p_k\)-th root then give
+\[
+ \|r_q\|_{p_k}\le \|r_q\|_1^{1-1/k}\|r_q\|_2^{1/k}
+ \ll_\varepsilon N^\varepsilon
+          (JY)^{1-1/(2k)}(1+JY/q)^{1/(2k)} .
+\]
+In particular the two interpolation inequalities are
+\(\|r_q\|_{6/5}\le\|r_q\|_1^{2/3}\|r_q\|_2^{1/3}\) for \(k=3\)
+and \(\|r_q\|_{4/3}\le\|r_q\|_1^{1/2}\|r_q\|_2^{1/2}\) for \(k=2\).
+
+Combining with \eqref{eq:target-orthog-moment} gives a factor
+\((q+JY)^{1/(2k)}E_{q,k}(T)^{1/(2k)}\) for each modulus,
+in addition to \(N^\varepsilon(JY)^{1-1/(2k)}\).
+H\"older in \(q\asymp Q\) gives
+\[
+ \sum_{q\asymp Q} E_{q,k}(T)^{1/(2k)}
+ \ll Q^{1-1/(2k)}
+         \left(\sum_{q\asymp Q}E_{q,k}(T)\right)^{1/(2k)} .
+\]
+Therefore \eqref{eq:target-mean-energy} yields
+\begin{equation}
+ \lvert S_g\rvert \ll_\varepsilon N^\varepsilon
+    (JY)^{1-1/(2k)}(Q+JY)^{1/(2k)}
+    Q^{1-1/(2k)}(QT^k+T^{2k})^{1/(2k)} .
+ \label{eq:target-holder-moduli}
+\end{equation}
+For \(u,v\ge0\) and \(0<t\le1\), \((u+v)^t\le u^t+v^t\).
+Applying this to both binomials in \eqref{eq:target-holder-moduli}
+gives the following four terms, with \(N^\varepsilon\) suppressed.
+\begin{equation}
+ \begin{gathered}
+ (JY)^{1-1/(2k)} Q^{1+1/(2k)}T^{1/2},\qquad
+ (JY)^{1-1/(2k)} QT,\\
+ JYQT^{1/2},\qquad
+ JYQ^{1-1/(2k)}T .
+ \end{gathered}
+ \label{eq:target-moment-four-terms}
+\end{equation}
+The powers of \(Q\) are \(7/6,1,1,5/6\) in the sixth moment and
+\(5/4,1,1,3/4\) in the fourth moment. They are all positive. Replacing
+\(Q\) by \(X\) thus gives an upper bound, and the sum over \(g\mid N\)
+adds at most \(\tau(N)\ll_\varepsilon N^\varepsilon\). In particular
+the argument uses the same bounds when \(N\) is a primorial or has
+arbitrarily high prime-power factors.
+
+For the reversed sixth moment take \(T=L=N^s\) and
+\(Y=W=N^{x-s}\). Then \(r_q\) groups \((h,n)\) by \(h\bar n\), and
+the first factor in \eqref{eq:target-holder-moduli} is
+\((JW)^{5/6}\). Upon dividing the four terms in
+\eqref{eq:target-moment-four-terms} by \(X^2\), their powers of \(N\)
+are, in order,
+\begin{equation}
+ \frac{5j-2s}{6},\qquad
+ \frac{5j+s-x}{6},\qquad
+ j-\frac{s}{2},\qquad
+ j-\frac{x}{6}.
+ \label{eq:target-sixth-rows}
+\end{equation}
+Indeed the unnormalized terms are
+\((JW)^{5/6}X^{7/6}L^{1/2}\), \((JW)^{5/6}XL\),
+\(JWX L^{1/2}\), and \(JWX^{5/6}L\).
+For the fourth moment take \(T=W\), \(Y=L\) and group \((h,\ell)\) by
+\(h\bar\ell\). The unnormalized terms are
+\((JL)^{3/4}X^{5/4}W^{1/2}\), \((JL)^{3/4}XW\),
+\(JLXW^{1/2}\), and \(JLX^{3/4}W\). Substitution of \(X=N^x\),
+\(J=N^j\) and division by \(X^2\) now gives
+\begin{equation}
+ \frac{3j+s-x}{4},\qquad
+ \frac{3j-s}{4},\qquad
+ j+\frac{s}{2}-\frac{x}{2},\qquad
+ j-\frac{x}{4}.
+ \label{eq:target-fourth-rows}
+\end{equation}
+
+\section{Choice of cutoffs and the balanced thresholds}
+\label{sec:exponents}
+
+For \(N>1\) write \(X=N^x\), \(R=N^r\), \(L=N^s\), \(J=N^j\) and
+\(H=N^{j_0}\). The case \(N=1\) is finite and obeys both bounds by
+increasing the constants. For real cutoffs, the inequalities on
+integer variables mean truncation at their integer parts. Here are
+the exponent bounds relative to \(X^2\), each up to \(N^\varepsilon\).
+The second-moment alternatives differ only in their nonzero
+completed frequency.
+\begin{equation}\label{eq:row-ledger}
+\begin{array}{@{}c|l@{}}
+ \text{Type I} & j-x,\quad j+2r-x/2\\
+ \text{Elementary }2 & (j-s)/2,\quad j-x/2,\quad j+s/2-x/4\\
+ \text{Spectral }2 & (j-s)/2,\quad j-x/2,\quad j+3s/8-x/4\\
+ \text{Reversed }6 &
+  (5j-2s)/6,\quad (5j+s-x)/6,\quad j-s/2,\quad j-x/6\\
+ \text{Moment }4 &
+  (3j+s-x)/4,\quad(3j-s)/4,\quad j+s/2-x/2,\quad j-x/4.
+\end{array}
+\end{equation}
+The Type I and elementary second-moment rows come from the absolute
+bounds of Section~\ref{sec:completion}. The spectral row comes from
+Section~\ref{sec:spectral-completion} and the last two rows from
+\eqref{eq:target-sixth-rows} and \eqref{eq:target-fourth-rows}.
+
+Let \(0\le j\le c\), with \(c\) a cap. For \(d=9\) in the
+elementary argument and \(d=8\) in the spectral argument assume
+\(dc\le x\). Set
+\[
+ r=\frac{x-c}{5},\qquad u=\frac{2x-c}{5},\qquad
+ t_9=\frac{3x-2c}{10},\qquad t_8=\frac{6x-4c}{17}.
+\]
+Use Type I and three Type II intervals, respectively
+\([r,t_d]\), \([t_d,u]\), and \([u,x/2]\). Use the appropriate
+second moment, the reversed sixth moment, and the fourth moment
+on them. The gaps \(t_9-r=u-t_9=x/10\), 
+\(t_8-r=(13x-3c)/85\), \(u-t_8=(4x+3c)/85\), and
+\(x/2-u=(x+2c)/10\) are positive. Moreover
+\(r-c=(x-6c)/5\ge x/20\) for both arguments. In particular
+\(L\) in the spectral band exceeds the cap scale by a fixed power.
+
+We show that every used exponent is at most \((dc-x)/10\).
+All exponents increase in \(j\), so set \(j=c\).
+On each interval every row is affine in \(s\).
+Its maximum is attained at the upper endpoint for positive slope
+in \(s\), the lower endpoint for negative slope, and either
+endpoint for zero slope. The selected values are affine in \(x,c\).
+Divide by \(x>0\) and test \(c/x=0,1/d\), since their differences
+from the proposed bound are also affine. The entries below are
+the selected values at \(x=1\), in the order of
+\eqref{eq:row-ledger}.
+\[
+\begin{array}{c|c|c}
+ d=9&c=0&c=1/9\\ \hline
+ \mathrm{I}&-1,\ -1/10&-8/9,\ -1/30\\
+ \mathrm{II},2&-1/10,\ -1/2,\ -1/10&-1/30,\ -7/18,\ 0\\
+ \mathrm{II},6&-1/10,\ -1/10,\ -3/20,\ -1/6&
+             0,\ -1/90,\ -1/36,\ -1/18\\
+ \mathrm{II},4&-1/8,\ -1/10,\ -1/4,\ -1/4&
+             -1/24,\ -1/90,\ -5/36,\ -5/36
+\end{array}
+\]
+\[
+\begin{array}{c|c|c}
+ d=8&c=0&c=1/8\\ \hline
+ \mathrm{I}&-1,\ -1/10&-7/8,\ -1/40\\
+ \mathrm{II},2&-1/10,\ -1/2,\ -2/17&-1/40,\ -3/8,\ -1/272\\
+ \mathrm{II},6&-2/17,\ -1/10,\ -3/17,\ -1/6&
+             -1/272,\ 0,\ -5/136,\ -1/24\\
+ \mathrm{II},4&-1/8,\ -1/10,\ -1/4,\ -1/4&
+             -1/32,\ 0,\ -1/8,\ -1/8
+\end{array}
+\]
+Each number is at most \(-1/10\) in the first column and at most
+zero in the second. For example, the elementary transition rows at
+\(t_9\) are \(c+t_9/2-x/4=(9c-x)/10=(5c-2t_9)/6\).
+The spectral bottleneck is reached at \(u\), where
+\((5c+u-x)/6=(3c-u)/4=(8c-x)/10\).
+Fixed dyadic comparability in the intervals changes the row
+bounds only by bounded factors because all the exponents are
+affine functions of the logarithms of the lengths. The same
+fixed factors can be included in the hypotheses \(J\ll H\) and
+\(L\ll X^{1/2}\) of the completed estimates.
+
+For the two main theorems take \(x=1-\theta\) and \(c=j_0=1-2\theta\).
+The elementary cap condition is strict for \(17\theta>8\), and the
+spectral cap condition is strict for \(15\theta>7\).
+Summing the dyadic blocks gives the exponents
+\((8-17\theta)/10\) and \((7-15\theta)/10\), respectively.
+This proves Theorems~\ref{thm:elementary} and~\ref{thm:spectral}.
+
+For the fourth-moment-only result take \(c\le x/10\), keep
+\(r=(x-c)/5\), and use the elementary second moment up to
+\(t=(x-c)/3\) followed by the fourth moment.
+Here \(t-r=2(x-c)/15>0\) and \(x/2-t=(x+2c)/6>0\).
+The maxima in the three groups at \(j=c\) are the entries of
+\[
+ \begin{gathered}
+ \big(c-x,(6c-x)/10\big),\qquad
+ \big((6c-x)/10,c-x/2,(10c-x)/12\big),\\
+ \big((3c-x/2)/4,(10c-x)/12,c-x/4,c-x/4\big).
+ \end{gathered}
+\]
+Subtracting the distinct entries from \((10c-x)/12\), in the
+order of first occurrence, gives
+\[
+ \begin{gathered}
+ (11x-2c)/12,\quad (28c+2x)/120,\quad (5x-2c)/12,\\
+ 0,\quad (c+x/2)/12,\quad (x-c)/6.
+ \end{gathered}
+\]
+They are nonnegative for \(0\le c\le x/10\).
+Substitution \(c=1-2\theta\) gives \((9-19\theta)/12\).
+
+\begin{proof}[Proof of Proposition~\ref{prop:obstruction}]
+Take \(j=j_0=x/8\), \(s=3j=3x/8\).
+A saving in Type I requires \(r<(x/2-j)/2=3x/16\);
+thus this scale cannot be absorbed by raising the cutoff.
+It is a Type II scale since \(s<x/2\).
+The second entries of the sixth- and fourth-moment rows are
+\((5j+s-x)/6=0\) and \((3j-s)/4=0\).
+The spectral second-moment row gives
+\(j+3s/8-x/4=x/64>0\). Hence none of the three available
+Type II estimates has all its exponents negative. Any larger
+frequency cap still includes \(j=x/8\), so this obstruction
+precludes a uniform strict saving from the same estimates
+there as well. The strict cap range was established above.
+\end{proof}
+
+\section{The unbalanced range of the elementary nine estimates}
+\label{sec:unbalanced}
+
+\begin{proof}[Proof of Proposition~\ref{prop:unbalanced}]
+Let \(A=N^a\) be the length of the variable to which the M\"obius
+identity is applied and let \(B=N^b\) be the modulus length. The
+frequency cap is \(AB/N\), so its exponent is \(j_0=a+b-1\).
+The normalized sum is measured in units of \(AB\).
+For rectangles the unordered pair \(\{a,b\}\) is
+\(\{1-p,1-q\}\). The orientation \(a=1-p\ge b=1-q\) is available
+when the longer coefficient carries the M\"obius weight. In the
+rectangle application both coefficients carry this weight.
+The other orientation is obtained by the identity
+\[
+ e(Nh\bar m/n)=e(-Nh\bar n/m)\,e(Nh/(mn)),\qquad (m,n)=1.
+\]
+Indeed \(m\bar m+n\bar n-1\) is divisible by both \(m\) and \(n\),
+hence by \(mn\). On the dyadic block, the extra factor \(e(Nh/(mn))\)
+is a smooth weight with bounded derivatives in the scaled variables
+when \(NJ\ll AB\), so it can be included in the Fourier separation.
+
+We first record the nine quantities governing this argument. Write
+\(R=N^r\), \(L=N^s\), \(W=A/L\), and \(J=N^j\).
+The cutoff exponent satisfies \(r\le a/2\), and the Type II blocks
+satisfy \(r\le s\le a/2\).
+The powers of \(N\), after dividing the original sum by \(AB\), are
+\begin{equation}
+\begin{array}{@{}c|l@{}}
+ \mathrm{I}
+ & j-b,\quad j+2r+b/2-a\\[2pt]
+ \mathrm{II},2
+ & (j-s)/2,\quad j-b/2,\quad j+s/2+b/4-a/2\\[2pt]
+ \mathrm{II},4
+ & (3j+s+b-2a)/4,\quad (3j-s)/4,\quad
+          j+s/2-a/2,\quad j-b/4 .
+\end{array}
+\label{eq:target-unbalanced-rows}
+\end{equation}
+Here and below fixed dyadic constants only change multiplicative
+constants in the estimates.
+
+To obtain the first line, use the completed length \(Y=A/d\) at a
+Type I divisor \(d\le R^2\). The Ramanujan average contributes
+\(N^\varepsilon JY\) after summing moduli for fixed \(d\). Summing
+\(Y=A/d\) gives \(N^\varepsilon JA\). The bound for the nonzero frequencies
+is \(N^\varepsilon B^{1/2}\) per modulus for each \(d,h\): the completion
+factor \(Y/B\) cancels the Fourier length \(B/Y\). Summing over all
+\(b\)-variables, \(h\)-variables and \(d\)-variables gives
+\(N^\varepsilon JR^2B^{3/2}\).
+For the second line, the outer Cauchy--Schwarz factor is
+\(N^\varepsilon BW\). Before this factor is included, the three squared
+contributions are bounded by \(N^\varepsilon BWJL\),
+\(N^\varepsilon WJ^2L^2\), and \(N^\varepsilon B^{3/2}J^2L^2\),
+respectively. The first is the rational diagonal, with
+\(N^\varepsilon JL\) tuples and \(O(BW)\) summands for each tuple.
+The second is the zero Poisson frequency away from the diagonal,
+where the Ramanujan average over the moduli cancels the denominator
+in \(W/B\). The third is the nonzero completion, for which the
+length \(B/W\) cancels \(W/B\) and Weil contributes \(B^{1/2}\) per
+modulus. Multiplying by \(BW\), taking square roots, and dividing by
+\(AB\) gives the second line of \eqref{eq:target-unbalanced-rows}.
+For the last line, use \eqref{eq:target-moment-four-terms} with
+\(k=2\), \(T=W\), \(Y=L\), and replace \(Q\) by \(B\). The four
+unnormalized terms are
+\[
+ (JL)^{3/4}B^{5/4}W^{1/2},\quad (JL)^{3/4}BW,\quad
+ JLBW^{1/2},\quad JLB^{3/4}W.
+\]
+Since \(W=N^{a-s}\), division by \(AB\) gives the asserted powers.
+Setting \(a=b=x\) in \eqref{eq:target-unbalanced-rows} recovers
+the corresponding rows of \eqref{eq:row-ledger}.
+
+The nonzero Type I row is unnecessary if \(a-2r>b\), because
+\(Y/B\gg N^{a-2r-b}\) uniformly in \(d\le R^2\).
+The nonzero Type II Cauchy--Schwarz row is unnecessary at \(s\) if
+\(a-s>b\), because \(W/B\gg N^{a-s-b}\).
+Indeed for a smooth compactly supported completion weight \(V\),
+\(\widehat V(t)\ll_M(1+|t|)^{-M}\). If the completed scale divided
+by \(B\) exceeds \(N^\delta\), then the sum over nonzero integer
+frequencies is bounded by \(O_M(N^{-\delta M}\sum_{k\ne0}|k|^{-M})\).
+The remaining factors are polynomial in \(N\), so any required
+power saving follows by choosing \(M\). We use this observation with
+strict positive exponent separation.
+
+Each row in \eqref{eq:target-unbalanced-rows} increases with \(j\),
+and the long-completion conditions just stated are independent of it.
+We can therefore test the cap \(j=j_0\), and use the resulting cutoffs
+at every smaller nonnegative \(j\). For the rest of the proof write
+\(j=j_0\). Define
+\[
+ r_{\mathrm I}=\frac{a-b/2-j}{2},\qquad c=a-b/2-2j .
+\]
+In the presence of its nonzero row, Type I needs \(r<r_{\mathrm I}\).
+The Cauchy--Schwarz rows alone give savings exactly when \(s>j\),
+\(j<b/2\), and one of
+\[
+                  s<c,\qquad s<a-b
+\]
+holds. The first inequality controls the nonzero row and the second
+gives rapid completion decay. At equality of lengths the rapid-decay
+argument supplies no power, so the inequalities used here are strict.
+
+Consider first \(a\ge b\). If the top \(s=a/2\) is covered by
+Cauchy--Schwarz with the nonzero row, then necessarily
+\(b>2j\) and \(a-b>4j\). These two conditions suffice to cover the entire
+Type II range by Cauchy--Schwarz and to meet Type I. In fact
+\[
+ c>a/2,\qquad
+ r_{\mathrm I}-j
+   =\tfrac12(a-b/2-3j)>\tfrac14 a-\tfrac12j>0,
+\]
+where \(a-b>4j\) gives \(j<a/4\).
+Choose \(j<r<\min(r_{\mathrm I},a/2)\).
+The Type I zero row is negative since \(b>2j\), its nonzero row
+is negative by the upper bound on \(r\), and all the Cauchy--Schwarz
+rows are negative on \([r,a/2]\).
+In rectangle coordinates the two conditions are
+\[
+                      2p+q>1,\qquad 3p+5q>4 .
+\]
+
+If the top is covered by rapid Cauchy--Schwarz completion, then
+necessarily \(b>2j\) and \(a>2b\). These conditions give \(a/2>j\)
+and \((a-b)/2>j\), since \(a-b>b>2j\).
+Choose \(j<r<\min((a-b)/2,a/2)\). Every Type I completed length
+exceeds \(B\) by a fixed power, and so does every Type II completed
+length since \(a-a/2>b\). The Type I zero row and the two remaining
+Cauchy--Schwarz rows are negative. These conditions become
+\[
+                        2p+q>1,\qquad 2q-p>1 .
+\]
+
+Suppose the top \(s=a/2\) is covered by the fourth moment.
+Its last row requires \(b>4j\) and its second row requires
+\(a/2>3j\). In particular \(c>a-b\), so the range \(s<a-b\) supplies
+no further Cauchy--Schwarz blocks beyond those with \(s<c\).
+At \(s=3j\) the fourth-moment second row is zero. If \(r\le3j\), a
+uniform power saving here must come from Cauchy--Schwarz and
+requires \(3j<c\). If \(r>3j\), then Type I requires \(r<r_{\mathrm I}\):
+indeed the alternative \(r<(a-b)/2\) also implies \(r<r_{\mathrm I}\)
+because \(b/2>j\). In this case
+\(a-b/2>2r+j>7j\ge 5j\).
+Both cases give the necessary pair
+\[
+                            b>4j,\qquad a-b/2>5j .
+\]
+Conversely, this pair gives \(a>7j\), since \(b/2>2j\).
+For \(j=0\) it gives \(a>0\) as well. Thus
+\(3j<a/2\), \(r_{\mathrm I}>j\), and \(c>3j\).
+Choose \(t\) with \(3j<t<\min(c,a/2)\) and \(r\) with
+\(j<r<\min(r_{\mathrm I},t)\). Type I is valid for this cutoff.
+Cauchy--Schwarz gives savings on \([r,t]\).
+For \(s\in[t,a/2]\), the second and fourth fourth-moment rows
+are negative by \(t>3j\) and \(b>4j\).
+The third is at most \(j-a/4<0\). The first is at most
+\((3j+b-3a/2)/4\le (3j-a/2)/4<0\), using \(b\le a\).
+These are exactly the conditions
+\[
+                       4p+3q>3,\qquad 8p+11q>9 .
+\]
+The three top cases exhaust the method. Raising \(r\) to or above
+\(a/2\) cannot give a Type I saving on its own: the nonzero row is then
+at least \(j+b/2\), and the long-completion condition is impossible.
+Choosing strict cutoffs gives a uniformly negative maximum of the
+relevant rows on the closed intervals. Conversely, a row tending to
+zero as \(s\) approaches a transition supplies no fixed power saving
+there, which accounts for the strict boundaries in the three cases.
+
+For the reverse orientation, write \(a_{\mathrm r}\le b_{\mathrm r}\)
+for the factorized and modulus exponents, respectively. The top cannot
+be covered by Cauchy--Schwarz through either
+\(a_{\mathrm r}-b_{\mathrm r}>4j\) or
+\(a_{\mathrm r}>2b_{\mathrm r}\).
+If it is covered by the fourth moment, the preceding necessity
+argument, which did not assume an ordering of \(a,b\) in this case,
+gives
+\[
+ b_{\mathrm r}>4j,\qquad a_{\mathrm r}-b_{\mathrm r}/2>5j .
+\]
+In particular \(a_{\mathrm r}>4j\) and
+\(b_{\mathrm r}-a_{\mathrm r}/2\ge a_{\mathrm r}-b_{\mathrm r}/2>5j\).
+Thus the original orientation is already in the mixed region. This
+proves the exact union for the given estimates and the two choices of
+orientation.
+
+To make the comparison, apply Bettin--Chandee
+\cite[Theorem~1]{BC} to lengths \(A,B,J\) with phase multiplier \(N\).
+For coefficients of size \(N^\varepsilon\) the product of the three
+\(\ell^2\) norms is \(O_\varepsilon(N^\varepsilon(ABJ)^{1/2})\).
+At \(J\le AB/N\) the factor \((1+NJ/(AB))^{1/2}\) is bounded.
+The two remaining terms are
+\((ABJ)^{7/20+\varepsilon}(A+B)^{1/4}\) and
+\((ABJ)^{3/8+\varepsilon}(JA+JB)^{1/8}\).
+At \(a\ge b\), and after multiplication by the norms and division
+by \(AB\), the two relative exponents are
+\[
+  (17j+2a-3b)/20,\qquad j-b/8 .
+\]
+Inserting \(j=1-p-q\), \(a=1-p\), \(b=1-q\) gives
+\((16-19p-14q)/20\) and \((7-8p-7q)/8\). Both are negative exactly
+in the stated Bettin--Chandee region.
+The identities
+\[
+\begin{aligned}
+ 4p+3q&=\frac7{33}(19p+14q)+\frac{q-p}{33},\\
+ 8p+11q&=\frac{19}{33}(19p+14q)+\frac{97}{33}(q-p)
+\end{aligned}
+\]
+show that \(19p+14q>16\) and \(q\ge p\) imply both inequalities of
+the mixed region, since \(112/33>3\) and \(304/33>9\).
+For strictness take \(p=q=12/25\). Then \(p+q<1\),
+\(4p+3q=84/25>3\), and \(8p+11q=228/25>9\), while
+\(19p+14q=396/25<16\).
+\end{proof}
+
+\section{The Goldbach remainder rectangles}\label{sec:rectangles}
+
+We prove Corollary~\ref{cor:rectangles}. Write \(X=N^{1-\theta}\) and
+\(H=X^2/N\). The implicit constants in \(U\asymp V\asymp N^\theta\)
+are fixed. In the smooth rectangle the summand is multiplied by
+\(W_1(u/U)W_2(v/V)\), with fixed compactly supported smooth functions
+on the positive real axis. In particular the proof applies to smooth
+weights supported in the dyadic rectangle. The sharp rectangle uses the
+two indicators of \([1,2)\). All variables in the rectangle sum are
+positive integers.
+
+\subsection{Smoothing, truncation, and Poisson summation}
+
+Let \(\rho,\sigma,\kappa>0\) be small constants to be chosen below.
+In the sharp case put \(\xi=N^{-\sigma}\) and convolve each indicator
+with \(\xi^{-1}\varphi(\,\cdot\,/\xi)\), where \(\varphi\) is a fixed
+nonnegative smooth function of integral one supported in \((-1,1)\).
+Each resulting weight is bounded by one, is supported in
+\([1-\xi,2+\xi]\), and agrees with the indicator outside the two
+intervals of radius \(\xi\) about its endpoints. Its \(i\)-th
+derivative is \(O_i(\xi^{-i})\). For a fixed \(u\asymp U\) the absolute
+number of solutions is at most
+\[
+ \sum_{1\le a<N/u}\tau(N-au)\ll_\varepsilon N^\varepsilon N/U.
+\]
+There are \(O(\xi U+1)\) such integers \(u\) in the two transition
+intervals. Fixing \(v\) gives the same bound with \(V\) in place of
+\(U\). Applying these two estimates to the difference of the products
+of the weights gives the error
+\begin{equation}\label{eq:rectangle-smoothing}
+ O_\varepsilon\bigl(N^{1+\varepsilon}(\xi+U^{-1}+V^{-1})\bigr).
+\end{equation}
+The derivative bounds for these approximants also hold for the fixed
+smooth weights, with constants depending on them.
+
+Put \(d_0=(a,b)\). Then \(d_0\mid N\). For each \(d_0\ge N^\kappa\)
+we can count solutions by dropping the coprimality condition on
+\(a/d_0,b/d_0\) and all interval restrictions. With \(P=N/d_0\) the
+resulting count is at most
+\[
+ \sum_{m=1}^{P-1}\tau(m)\tau(P-m)\ll_\varepsilon P N^\varepsilon.
+\]
+The sum over these divisors is
+\(O_\varepsilon(N^{1-\kappa+\varepsilon})\), with the divisor factor
+absorbed by relabeling \(\varepsilon\). Choose a fixed smooth
+\(0\le\chi\le1\) that is zero on \((-\infty,1]\) and one on
+\([2,\infty)\). Multiply the remaining summands by
+\(\chi(au/N^{1-\rho})\chi(bv/N^{1-\rho})\). For
+\(m=au<2N^{1-\rho}\) the number discarded is bounded by
+\(\sum_m \tau(m)\tau(N-m)\ll_\varepsilon N^{1-\rho+\varepsilon}\).
+For \(m=bv<2N^{1-\rho}\) the same displayed divisor sum counts the
+discarded terms with the roles of the two products interchanged.
+These estimates apply to the smooth weights as well, after
+multiplication by their sup norms.
+
+For a fixed remaining \(d_0\mid N\), write
+\[
+ a=d_0 a',\quad b=d_0b',\quad P=N/d_0,\quad Z=X/d_0,\quad
+ (a',b')=1.
+\]
+The support conditions give \(a',b'\ll Z\) and
+\(a',b'\gg ZN^{-\rho}\), since \(u\asymp U\), \(v\asymp V\) and
+\(au,bv\ge N^{1-\rho}\) on that support. Insert a smooth dyadic
+partition in \(a'\) and \(b'\). It has \(O((\log N)^2)\) pairs of
+nonempty pieces, with parameters \(A,B\) in
+\([cZN^{-\rho},C Z]\) and cutoff factors
+\(\omega_A(a'/A),\omega_B(b'/B)\) supported in a fixed compact
+subset of \((0,\infty)\), with uniformly bounded derivatives.
+For example a dyadic partition on positive reals is obtained by
+summing the dilates of \(\varpi(t)-\varpi(2t)\), where \(\varpi=1\)
+on \([0,1]\) and \(\varpi=0\) on \([2,\infty)\).
+
+For real \(t\), define
+\[
+ \begin{split}
+ G(t;x_1,x_2)={}&W_1(t)\,
+ W_2\!\left(\frac{N-d_0 A x_1Ut}{d_0 Bx_2 V}\right)\\
+ &{}\times
+ \chi\!\left(\frac{d_0 A x_1Ut}{N^{1-\rho}}\right)
+ \chi\!\left(\frac{N-d_0 A x_1Ut}{N^{1-\rho}}\right),
+ \end{split}
+\]
+and use the Fourier convention
+\(\widehat G(z;x_1,x_2)=\int_{\mathbb R}G(t;x_1,x_2)e(-zt)\,dt\).
+The equation \(a'u+b'v=P\) gives \(u\equiv P\overline{a'}\pmod{b'}\)
+and determines \(v\) from \(u\). The smooth weights enforce positivity.
+Poisson summation for this residue class yields the exact \(u\)-sum
+\begin{equation}\label{eq:rectangle-outer-poisson}
+ \frac U{b'}\sum_{h\in\mathbb Z}
+ e\!\left(\frac{hP\overline{a'}}{b'}\right)
+ \widehat G\!\left(\frac{hU}{b'};\frac{a'}A,\frac{b'}B\right).
+\end{equation}
+Indeed the residue-class indicator is the average of additive
+characters of modulus \(b'\), and Fourier transformation of
+\(G(u/U;x_1,x_2)\) contributes \(U\widehat G(U\,\cdot\,;x_1,x_2)\).
+This gives both the factor \(U/b'\) and the plus sign in the phase of
+\eqref{eq:rectangle-outer-poisson}.
+
+For \(x_1,x_2\) in the cutoffs and \(t\) in the fixed support of \(W_1\),
+all derivatives of each inner argument in \(G\) of any specified
+order are \(O_i(N^\rho)\). For the argument of \(W_2\) this follows
+from \(N/(d_0 B V)\ll N^\rho\), \(d_0 A U\ll N\), and \(x_2\)
+bounded away from zero. For the last two arguments it follows from
+\(d_0 A U\ll N\). The chain and product rules give derivative
+bounds of total order \(i\) by \(O_i(N^{C_0i(\rho+\sigma)})\)
+for an absolute \(C_0\). Integration by parts in \(t\) gives, for
+each integer \(m\ge2\),
+\begin{equation}\label{eq:rectangle-poisson-decay}
+  |\widehat G(z;x_1,x_2)|
+  \ll_m N^{C_0m(\rho+\sigma)}(1+|z|)^{-m}.
+\end{equation}
+Choose an auxiliary smooth even frequency cutoff equal to one
+for \(|h|U/(BN^\delta)\le1\) and zero for that ratio at least two,
+where \(\delta>C_0(\rho+\sigma)\). The part removed is negligible.
+To see uniformity even when the cutoff contains no nonzero integer,
+put \(v_0=U/B\). For each sign, the tail uses
+\(|h|v_0>N^\delta\) and
+\[
+ \sum_{\substack{h\ge1\\hv_0>N^\delta}}(1+hv_0)^{-m}
+ \ll_m (1+v_0^{-1})N^{-(m-1)\delta}.
+\]
+The inequality follows by bounding the first term and comparing the
+remaining decreasing sequence with its integral. Multiplication by
+\(U/b'\asymp v_0\) costs \(O(1+v_0)\), a fixed polynomial in \(N\).
+There are at most a fixed power of \(N\) choices of \(d_0,a',b'\)
+and the dyadic pieces. Taking \(m\) sufficiently large gives an error
+\(O_M(N^{-M})\) for any fixed \(M>0\).
+If \(d_0>H\), then \(B/U\ll H/d_0< O(1)\). The same tail estimate
+still applies, and there are no retained nonzero terms when
+\(d_0\) exceeds a constant multiple of \(HN^\delta\).
+Divisors between \(H\) and this inflated upper limit are included
+in the following argument.
+
+\subsection{The nonzero frequencies}
+
+Insert a smooth dyadic partition in \(|h|\ge1\). For either sign and
+each nonempty piece with \(|h|\asymp J\), \(J\ge1\), the sum has
+prefactor \(U/B\) and a smooth weight in the normalized coordinates
+\((x_1,x_2,z)=(a'/A,b'/B,|h|/J)\). This weight is explicitly the
+product of the three dyadic cutoffs, \(x_2^{-1}\), the frequency
+cutoff at \(JzU/(BN^\delta)\), and
+\(\widehat G(\pm JzU/(Bx_2);x_1,x_2)\).
+Every derivative of bounded order \(i\) is
+\(O_i(N^{C_i(\rho+\sigma+\delta)})\). In fact a derivative on the
+exponential in the defining integral for \(\widehat G\) costs at
+most \(O_i(1+JU/B)\ll N^\delta\), while derivatives on \(G\)
+obey the bound preceding \eqref{eq:rectangle-poisson-decay}.
+Derivatives on the two frequency cutoffs are bounded because
+\(z\) is in a fixed compact subset of \((0,\infty)\) and
+\(JU/(BN^\delta)\ll1\) for a surviving piece. Fourier separation
+of a smooth compactly supported weight uses a fixed finite number of
+these derivative bounds. The two signs give the same estimates, by
+replacing the phase by its conjugate and conjugating the weights.
+
+For nonsquarefree \(d_0\) the M\"obius product is zero. For squarefree
+\(d_0\),
+\begin{equation}\label{eq:rectangle-moebius-gcd}
+ \mu(d_0a')\mu(d_0b')
+ =\mu(a')\mu(b')\mathbf 1_{(a',d_0)=1}\mathbf 1_{(b',d_0)=1}.
+\end{equation}
+The \(b'\)-factor is an admissible bounded coefficient. Here is the
+effect of the \(a'\)-restriction on the row estimates
+\eqref{eq:row-ledger}. In Type~I, after the M\"obius split, fix the
+short convolution variable \(\nu\) and write \(a'=\nu m\) with
+\(m\asymp Y=A/\nu\). Use
+\[
+ \mathbf 1_{(a',d_0)=1}
+ =\sum_{\substack{\lambda\mid d_0\\\lambda\mid a'}}\mu(\lambda).
+\]
+For a fixed \(\lambda\), put \(\lambda'=\lambda/(\lambda,\nu)\).
+The divisibility condition is precisely \(m=\lambda' m_1\).
+The phase is then \(e(hP\overline{\nu\lambda'}\overline{m_1}/b')\)
+on the unit class, and the \(m_1\)-sum is at scale
+\(Y'=Y/\lambda'\). Moduli with \((b',\nu\lambda')>1\) contribute
+no terms. The zero Poisson frequency has factor \(Y'/b'\le Y/b'\)
+and the Ramanujan bound with numerator \(hP\), since
+\(\nu\lambda'\) is a unit. In the nonzero frequencies the Weil
+estimate is used with \(K=B/Y'\) and the length cancels by
+\(Y'K=B\). Thus shortening \(Y\) has no effect on the resulting
+bound. There are at most \(\tau(d_0)\) terms in this inclusion-exclusion
+sum. In Type~II, \(a'=\ell n\) satisfies \((a',d_0)=1\) if and
+only if both \((\ell,d_0)=1\) and \((n,d_0)=1\). Multiplying the
+two separated coefficient sequences by these indicators preserves
+their upper bounds in Cauchy--Schwarz and the two moment estimates.
+
+For clarity, the scale parameters in the row estimates can be
+bounded using \(Z\). The Type~I absolute bounds are the sum of
+\(O_\varepsilon(JA N^\varepsilon)\) and
+\(O_\varepsilon(JR^2 B^{3/2}N^\varepsilon)\), which increase
+when \(A\) and \(B\) are replaced by their upper scale \(Z\).
+The support here is above \(R\), so the short term of the M\"obius
+identity vanishes. In elementary Type~II write \(A\asymp LW\)
+and take \(L\ll \sqrt Z\). The diagonal, Ramanujan and nonzero
+Weil contributions to the completed \((b',n)\) second moment
+are bounded, respectively, by constants times
+\[
+   BWJL,\qquad WJ^2L^2 N^\varepsilon,\qquad
+   B^{3/2} J^2 L^2 N^\varepsilon.
+\]
+The Cauchy--Schwarz factor squared is \(BW N^\varepsilon\).
+All these expressions increase under \(B\le C Z\) and
+\(W\ll Z/L\). In the fourth and sixth moments the outer bounds
+use nonnegative powers of both \(L,W\) and strictly positive
+powers of the reduced modulus length \(Q\), so \(W\ll Z/L\)
+and \(Q\ll Z\) give the indicated balanced rows at \(Z\).
+The spectral row uses the rectangular estimate
+\eqref{eq:spectral-rectangular} with \(A,B\gg ZN^{-\rho}\) and loses only
+\(N^{O(\rho+\delta)+\varepsilon}\). All analytic estimates here
+apply to \(P=N/d_0\) with divisor and Fourier losses measured
+against \(N\).
+
+Set \(x=1-\theta\), \(j_0=1-2\theta\) and \(w=\log d_0/\log N\).
+The power corresponding to \(Z\) is \(x-w\).
+The truncated nonzero frequencies, including the dyadic factors,
+satisfy
+\[
+  J\ll (B/U)N^\delta\ll N^{j_0-w+\delta}.
+\]
+For large \(N\) we can use the cap \(c=j_0-w+2\delta\).
+On every surviving block \(c\ge0\), and \(Z^2/P=H/d_0\le N^c\).
+Put \(k_*=9\) in the elementary argument and \(k_*=8\) in the
+spectral argument. For the asserted range with \(\theta\le1/2\)
+one has \(\gamma=(x-k_*j_0)/10>0\). Upon taking
+\(2k_*\delta<10\gamma\), the exact identities
+\[
+ \begin{split}
+ (x-w)-k_*c&=10\gamma+(k_*-1)w-2k_*\delta>0,\\
+ \frac{k_*c-(x-w)}{10}&=-\gamma+\frac{2k_*\delta-(k_*-1)w}{10}
+ \end{split}
+\]
+give the cap condition and exponent from
+Section~\ref{sec:exponents}. The gain in the numerator of the
+exponent is \(8w\) in the elementary case and \(7w\) in the spectral
+case. Constant factors in the dyadic ranges change log-base-\(N\)
+exponents by \(O(1/\log N)\), or can be covered by an arbitrarily
+small fixed part of the final \(\varepsilon\). For a fixed
+\(d_0,A,B,J\) the nonzero contribution is therefore
+\[
+ \ll_\varepsilon \frac{U}{B}Z^2
+ N^{-\gamma+(2k_*\delta-(k_*-1)w)/10
+       +O(\rho+\sigma+\delta)+\varepsilon}.
+\]
+Since \(UZ/B\ll U N^\rho\), the prefactor is
+\(O(N^{1-w+\rho})\). The sum over all pieces and divisors thus
+saves a fixed power of \(N\) after the small parameters are chosen.
+
+\subsection{The zero frequency under RH}
+
+Let \(\mu_q(m)=\mu(m)\mathbf 1_{(m,q)=1}\). Under RH,
+\begin{equation}\label{eq:rectangle-coprime-mertens}
+  \sum_{m\le t}\mu_q(m)
+  \ll_\varepsilon t^{1/2+\varepsilon}q^\varepsilon
+  \qquad(t\ge1,\ q\ge1).
+\end{equation}
+Here is the uniformity in \(q\). The untwisted bound
+\(\sum_{m\le t}\mu(m)\ll_\varepsilon t^{1/2+\varepsilon}\)
+follows from Littlewood's convergence of
+\(\sum_m\mu(m)m^{-s}\) for \(\operatorname{Re}s>1/2\) under
+RH~\cite{littlewood1912}. If
+\(F(t)=\sum_{m\le t}\mu(m)m^{-(1/2+\varepsilon)}\), this convergence
+makes \(F\) bounded and partial summation gives the desired untwisted
+bound. Let \(1_{q^\infty}(m)\) be the indicator that every prime
+dividing \(m\) divides \(q\). Then \(\mu_q=\mu*1_{q^\infty}\)
+by comparison of the local factors at each prime. Consequently
+\[
+ \left|\sum_{m\le t}\mu_q(m)\right|
+ \ll_\varepsilon t^{1/2+\varepsilon}
+      \prod_{p\mid q}(1-p^{-1/2-\varepsilon})^{-1}.
+\]
+For primes above a constant depending only on \(\varepsilon\) the
+factor at \(p\) is at most \(p^\varepsilon\). The remaining factors
+have a bounded product. This proves \eqref{eq:rectangle-coprime-mertens}.
+
+For fixed \(b'\asymp B\) use \(q=b'd_0\) in
+\eqref{eq:rectangle-coprime-mertens}. In the \(h=0\) term of
+\eqref{eq:rectangle-outer-poisson}, the \(a'\)-weight at scale
+\(A\) is \(\omega_A(a'/A)\widehat G(0;a'/A,b'/B)\).
+Its sup norm and its total variation are
+\(O(N^{C(\rho+\sigma)})\), by the product and derivative estimates
+above. Partial summation on \(a'\) and \(b'd_0\ll N\) give
+an upper bound \(O_\varepsilon(A^{1/2}N^{C(\rho+\sigma)+\varepsilon})\)
+for that weighted sum. The factor \(U/b'\) and the \(O(B)\) choices
+of \(b'\) give
+\[
+ \ll_\varepsilon U A^{1/2} N^{C(\rho+\sigma)+\varepsilon}
+ \ll_\varepsilon
+ N^{(1+\theta)/2+C(\rho+\sigma)+\varepsilon}.
+\]
+This also bounds the sum of the zero modes over \(d_0,A,B\), with
+an arbitrarily small further \(N^\varepsilon\) loss. It uses RH
+for \(\zeta\) alone.
+
+Choose \(\kappa>0\) smaller than \(x/4\).
+Fix \(\varepsilon>0\) sufficiently small compared with \(\gamma\)
+and \(1-\theta\) when \(\theta\le1/2\).
+After this choice all required derivative orders in the row
+estimates are fixed. Choose \(\delta>0\) so small that the
+loss \(O(\delta)+2k_*\delta/10\) is less than \(\gamma/4\).
+Then take \(\rho,\sigma>0\) small enough that
+\(C_0(\rho+\sigma)<\delta\), that the derivative losses leave
+strict margins in both the zero and nonzero estimates, and that
+\(\rho<x/4\). In the preliminary errors the divisor exponent can be
+chosen independently of the analytic \(\varepsilon\). Take it below
+\(\min(\kappa,\rho,\sigma,\theta)/2\).
+All terms are now \(O(N^{1-\eta})\) for some \(\eta>0\) depending on
+\(\theta\), including \eqref{eq:rectangle-smoothing} and the omitted
+gcd and endpoint terms. The condition \(\rho<x/4\) also ensures
+\(A\gg R\): for \(d_0<N^\kappa\) the cutoff exponent is
+\((x-w-c)/5\le (x-w)/5\), whereas
+\(A\gg N^{x-w-\rho}\).
+
+For \(1/2<\theta<1\) the same argument requires only the zero mode.
+Choose \(0<\delta<2\theta-1\) and
+\(C_0(\rho+\sigma)<\delta\). Then \(BN^\delta/U\ll
+N^{1-2\theta+\delta}\) tends to zero for every \(d_0\) and
+every dyadic box. The nonzero modes all lie in the
+rapidly decaying tail, and the zero bound still gives a strict
+saving because \((1+\theta)/2<1\). The small parameters can be
+chosen with \(C(\rho+\sigma)+\varepsilon<(1-\theta)/2\)
+and with positive margins in all preliminary errors.
+\qed
+
+\section{Formal Verification Scope}
+\label{sec:formal}
+\begingroup
+\raggedright
+
+The accompanying \texttt{route-f} development uses Lean~4.36.0 and
+Mathlib~v4.36.0. The modules below live under \texttt{lean/FareyGoldbach/}.
+The repository's audit file \path{lean/tests/RouteFAudit.lean} uses
+\texttt{\#print axioms} for the named declarations. This audit passes with
+warnings treated as errors. The 38 named Target~3B declarations have no
+\texttt{sorry} dependencies and use only the standard axioms
+\texttt{propext}, \path{Classical.choice}, and \path{Quot.sound}.
+
+\subsection*{\texttt{Target3BMoebiusSplit}}
+The convolution and finite split are
+\path{Target3B.moebius_two_cutoffs} and
+\path{Target3B.moebius_finite_split}. The support assertions are
+\path{Target3B.typeI_vanish_of_mul_cutoffs_lt} and
+\path{Target3B.typeII_tail_vanish_of_le_cutoff}.
+For the fourth-moment-only argument, the audited exponent
+declarations include
+\path{Target3B.typeI_scale},
+\path{Target3B.typeII_completion_scales},
+\path{Target3B.typeII_fourth_scales},
+\path{Target3B.every_row_strict},
+\path{Target3B.sum_rows_strict},
+\path{Target3B.transition_optimal},
+\path{Target3B.truncation_optimal}, and
+\path{Target3B.threshold}. The related
+\path{Target3B.analytic_power_bound} takes
+\path{Target3B.AnalyticEstimates} as a hypothesis. Its branch
+inequalities are analytic input to that implication.
+
+\subsection*{\texttt{Target3BKaratsuba}}
+The signed unit-fraction divisibility and its size consequence are
+\path{Target3B.karatsuba_lcm_sq_dvd_prod} and
+\path{Target3B.karatsuba_lcm_sq_le_prod}. The specializations are
+\path{Target3B.karatsuba_four_reciprocals} and
+\path{Target3B.karatsuba_six_reciprocals}. These are unconditional
+kernel-checked statements.
+
+\subsection*{\texttt{Target3BThresholds}}
+In namespace \path{ThresholdEightSeventeenths}, the audited
+declarations are
+\path{cuts_ordered}, \path{type_i_rows}, \path{cauchy_rows},
+\path{sixth_moment_rows}, \path{fourth_moment_rows},
+\path{attained_at_sixth_cut}, \path{balanced_threshold}, and
+\path{shifted_poisson_cap}.
+In namespace \path{ThresholdSevenFifteenths}, they are
+\path{cuts_ordered}, \path{type_i_rows}, \path{spectral_cauchy_rows},
+\path{spectral_length_margin}, \path{exceptional_factor_exponents},
+\path{normalize_completed_terms}, \path{sixth_moment_rows},
+\path{fourth_moment_rows}, \path{attained_at_fourth_cut},
+\path{obstruction_at_three_j}, \path{spectral_strictly_improves},
+\path{balanced_threshold}, and \path{shifted_poisson_cap}.
+These declarations check the rational exponent closures, the
+spectral length and normalization inequalities, the change of cap
+under division by \(d_0\), and the exact obstruction. The executable
+\path{notes/check_target3b_thresholds.py} checks the corresponding
+affine vertex inequalities using exact rational arithmetic.
+
+The analytic derivations in the preceding sections are paper proofs.
+Their external inputs are the full-modulus Weil bound, Pascadi's
+local spectral estimate, and, for the outer zero frequency of the
+rectangle application, the RH bound for the M\"obius summatory
+function. The Lean statements cover the algebraic and rational
+steps described above. The numerical feasible region for unbalanced
+rectangles is proved in Section~\ref{sec:unbalanced}.
+\par\endgroup
+
+\begin{thebibliography}{10}
+\raggedright
+
+\bibitem{BC}
+S.~Bettin and V.~Chandee,
+\emph{Trilinear forms with Kloosterman fractions},
+Adv. Math. \textbf{328} (2018), 1234--1262.
+\href{https://doi.org/10.1016/j.aim.2018.01.026}{doi:10.1016/j.aim.2018.01.026}.
+
+\bibitem{BGrings}
+J.~Bourgain and M.~Z.~Garaev,
+\emph{Kloosterman sums in residue rings},
+Acta Arith. \textbf{164} (2014), 43--64.
+\href{https://doi.org/10.4064/aa164-1-4}{doi:10.4064/aa164-1-4}.
+
+\bibitem{BGprime}
+J.~Bourgain and M.~Z.~Garaev,
+\emph{Sumsets of reciprocals in prime fields and multilinear Kloosterman sums},
+Izv. Math. \textbf{78} (2014), 656--707.
+\href{https://doi.org/10.1070/IM2014v078n04ABEH002703}{doi:10.1070/IM2014v078n04ABEH002703}.
+
+\bibitem{DRZ}
+A.~Dong, N.~Robles, and D.~Zeindler,
+\emph{Bilinear forms with Kloosterman fractions and applications},
+preprint, \href{https://arxiv.org/abs/2601.00292v3}{arXiv:2601.00292v3}, 2026.
+
+\bibitem{FKM}
+\'E.~Fouvry, E.~Kowalski, and P.~Michel,
+\emph{Algebraic trace functions over the primes},
+Duke Math. J. \textbf{163} (2014), 1683--1736.
+\href{https://arxiv.org/abs/1211.6043}{arXiv:1211.6043}.
+
+\bibitem{IK}
+H.~Iwaniec and E.~Kowalski,
+\emph{Analytic Number Theory},
+American Mathematical Society Colloquium Publications, vol.~53,
+American Mathematical Society, Providence, RI, 2004.
+
+\bibitem{littlewood1912}
+J.~E.~Littlewood,
+\emph{Quelques cons\'equences de l'hypoth\`ese que la fonction
+\(\zeta(s)\) de Riemann n'a pas de z\'eros dans le demi-plan
+\(\operatorname{Re}s>1/2\)},
+C. R. Acad. Sci. Paris \textbf{154} (1912), 263--266.
+
+\bibitem{PascadiPi}
+A.~Pascadi,
+\emph{Large sieve inequalities for exceptional Maass forms and the
+greatest prime factor of \(n^2+1\)},
+Forum Math. Pi \textbf{14} (2026), e8.
+\href{https://doi.org/10.1017/fmp.2026.10025}{doi:10.1017/fmp.2026.10025}.
+Preprint version \href{https://arxiv.org/abs/2404.04239v3}{arXiv:2404.04239v3}.
+
+\bibitem{PascadiFractions}
+A.~Pascadi,
+\emph{Sums of Kloosterman fractions and applications},
+preprint, \href{https://arxiv.org/abs/2611.34917v1}{arXiv:2611.34917v1}, 2026.
+
+\bibitem{Shp}
+I.~E.~Shparlinski,
+\emph{Bounds of trilinear sums with Kloosterman fractions},
+Arch. Math. \textbf{117} (2021), 261--266.
+\href{https://doi.org/10.1007/s00013-021-01623-y}{doi:10.1007/s00013-021-01623-y}.
+
+\end{thebibliography}
+\end{document}

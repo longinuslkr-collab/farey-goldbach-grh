@@ -9,3 +9,9 @@ rev = "v4.36.0"
 
 [[lean_lib]]
 name = "FareyGoldbach"
+
+[[lean_lib]]
+name = "MathlibNt"
+
+[[lean_lib]]
+name = "AnalyticNumberTheory"

@@ -447,7 +447,7 @@ lemma norm_negLogDerivL_two_le {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ
   exact (norm_tsum_le_tsum_norm hsumm).trans (hsumm.tsum_le_tsum hpt hsum_dom)
 
 /-- Continuity of `negLogDerivL χ` at any `s ≠ 1` where `entireL χ s ≠ 0`. -/
-private lemma continuousAt_negLogDerivL {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ d)
+lemma continuousAt_negLogDerivL {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ d)
     {s : ℂ} (hs1 : s ≠ 1) (hF : entireL χ s ≠ 0) :
     ContinuousAt (negLogDerivL χ) s := by
   have hF_diff : Differentiable ℂ (entireL χ) := differentiable_entireL χ
@@ -505,8 +505,128 @@ lemma integrable_two_line {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ d)
   rw [norm_mul]
   exact mul_le_mul_of_nonneg_left (norm_negLogDerivL_two_le χ u) (norm_nonneg _)
 
-/-- On `Re(s) = 2`, the smoothed twisted von Mangoldt sum equals the vertical Mellin integral
-`(1 / (2π)) * ∫_ℝ f̃(2 + iu) * (-L'/L)(2 + iu, χ) du`. -/
+/-- Inversion on any line of absolute convergence, with the absolute series
+on the real axis providing the dominating Dirichlet sum. -/
+theorem weightedVonMangoldt_eq_verticalIntegral_of_one_lt {d : ℕ} [NeZero d]
+    (χ : DirichletCharacter ℂ d) (K : ℂ → ℂ) (w : ℝ → ℂ) (Y : ℕ)
+    {σ : ℝ} (hσ : 1 < σ)
+    (hker : Integrable (fun u : ℝ => K ((σ : ℂ) + (u : ℂ) * Complex.I)))
+    (hInv : ∀ x : ℝ, 0 < x → mellinInv σ K x = w x)
+    (hSupp : ∀ n : ℕ, Y < n → w (n : ℝ) = 0) :
+    (∑ n ∈ Finset.Icc 1 Y, (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * w n) =
+      ((1 / (2 * Real.pi) : ℝ) : ℂ) *
+        ∫ u : ℝ, K ((σ : ℂ) + (u : ℂ) * Complex.I) *
+          negLogDerivL χ ((σ : ℂ) + (u : ℂ) * Complex.I) := by
+  let a : ℕ → ℂ := fun n => χ (n : ZMod d) * (ArithmeticFunction.vonMangoldt n : ℂ)
+  let m (n : ℕ) := ‖LSeries.term a (σ:ℂ) n‖
+  let F : ℕ → ℝ → ℂ := fun n u =>
+    K ((σ : ℂ) + (u : ℂ) * Complex.I) *
+      LSeries.term a ((σ : ℂ) + (u : ℂ) * Complex.I) n
+  have hm : Summable m := by
+    have h : LSeriesSummable a (σ:ℂ) :=
+      χ.LSeriesSummable_twist_vonMangoldt (by simpa only [Complex.ofReal_re] using hσ)
+    exact (summable_norm_iff).mpr h
+  have hF_norm : ∀ n u, ‖F n u‖ ≤ ‖K ((σ : ℂ) + (u : ℂ) * Complex.I)‖ * m n := by
+    intro n u
+    dsimp only [F,m]
+    rw [norm_mul]
+    refine mul_le_mul_of_nonneg_left ?_ (norm_nonneg _)
+    by_cases hn : n = 0
+    · simp [LSeries.term,hn]
+    · have hn_pos : 0 < n := Nat.pos_of_ne_zero hn
+      rw [LSeries.term_of_ne_zero hn,LSeries.term_of_ne_zero hn,norm_div,norm_div,
+        Complex.norm_natCast_cpow_of_pos hn_pos,Complex.norm_natCast_cpow_of_pos hn_pos,
+        show ((σ:ℂ)+(u:ℂ)*Complex.I).re=σ by simp,Complex.ofReal_re]
+  have hF_int : ∀ n : ℕ, Integrable (F n) := by
+    intro n
+    have hcont_term : Continuous (fun u : ℝ => LSeries.term a ((σ : ℂ) + (u : ℂ) * Complex.I) n) := by
+      by_cases hn : n = 0
+      · subst hn; simp [LSeries.term]; exact continuous_const
+      · simp only [LSeries.term_of_ne_zero hn]
+        have hnC : ((n : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hn
+        have hcp : Continuous (fun u : ℝ => ((n : ℕ) : ℂ) ^ ((σ : ℂ) + (u : ℂ) * Complex.I)) :=
+          Continuous.const_cpow (by fun_prop) (Or.inl hnC)
+        exact continuous_const.div hcp fun u => Complex.cpow_ne_zero_iff.mpr (Or.inl hnC)
+    refine (hker.norm.mul_const (m n)).mono'
+      (hker.aestronglyMeasurable.mul hcont_term.aestronglyMeasurable)
+      (Eventually.of_forall (hF_norm n))
+  have hF_sum : Summable fun n : ℕ => ∫ u : ℝ, ‖F n u‖ := by
+    have hsum_dom : Summable fun n : ℕ =>
+        (∫ u : ℝ, ‖K ((σ : ℂ) + (u : ℂ) * Complex.I)‖) *
+          (m n) := by
+      exact hm.mul_left _
+    refine hsum_dom.of_nonneg_of_le (fun n => integral_nonneg fun _ => norm_nonneg _) fun n => ?_
+    calc ∫ u : ℝ, ‖F n u‖
+        ≤ ∫ u : ℝ, ‖K ((σ : ℂ) + (u : ℂ) * Complex.I)‖ *
+            (m n) :=
+          integral_mono (hF_int n).norm (hker.norm.mul_const _) (hF_norm n)
+      _ = (∫ u : ℝ, ‖K ((σ : ℂ) + (u : ℂ) * Complex.I)‖) *
+            (m n) := integral_mul_const _ _
+  have hswap := MeasureTheory.integral_tsum_of_summable_integral_norm hF_int hF_sum
+  have htsum_eq : ∀ u : ℝ,
+      (∑' n : ℕ, F n u) = K ((σ : ℂ) + (u : ℂ) * Complex.I) *
+        negLogDerivL χ ((σ : ℂ) + (u : ℂ) * Complex.I) := by
+    intro u
+    have hs : 1 < ((σ : ℂ) + (u : ℂ) * Complex.I).re := by simpa using hσ
+    rw [← LSeries_twist_vonMangoldt_eq_negLogDerivL χ hs]
+    unfold LSeries
+    change (∑' n : ℕ, K ((σ : ℂ) + (u : ℂ) * Complex.I) *
+      LSeries.term a ((σ : ℂ) + (u : ℂ) * Complex.I) n) = _
+    rw [tsum_mul_left]
+  simp_rw [htsum_eq] at hswap
+  have hterm_eval : ∀ n : ℕ,
+      ((1 / (2 * Real.pi) : ℝ) : ℂ) * (∫ u : ℝ, F n u) =
+        (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * w (n : ℝ) := by
+    intro n
+    by_cases hn : n = 0
+    · subst hn
+      simp [F, LSeries.term]
+    · have hn_pos : (0 : ℝ) < (n : ℝ) := Nat.cast_pos.mpr (Nat.pos_of_ne_zero hn)
+      have hF_rw : ∀ u : ℝ, F n u = a n * (((n : ℝ) : ℂ) ^ (-((σ : ℂ) + (u : ℂ) * Complex.I)) *
+          K ((σ : ℂ) + (u : ℂ) * Complex.I)) := by
+        intro u
+        dsimp [F]
+        rw [LSeries.term_of_ne_zero hn, div_eq_mul_inv, ← Complex.cpow_neg]
+        ring
+      simp_rw [hF_rw]
+      rw [integral_const_mul]
+      have hinv := hInv (n : ℝ) hn_pos
+      unfold mellinInv at hinv
+      simp only [smul_eq_mul, Complex.real_smul] at hinv
+      calc ((1 / (2 * Real.pi) : ℝ) : ℂ) *
+            (a n * ∫ u : ℝ, ((n : ℝ) : ℂ) ^ (-((σ : ℂ) + (u : ℂ) * Complex.I)) *
+              K ((σ : ℂ) + (u : ℂ) * Complex.I))
+          = a n * (((1 / (2 * Real.pi) : ℝ) : ℂ) *
+              ∫ u : ℝ, ((n : ℝ) : ℂ) ^ (-((σ : ℂ) + (u : ℂ) * Complex.I)) *
+                K ((σ : ℂ) + (u : ℂ) * Complex.I)) := by ring
+        _ = a n * w (n : ℝ) := by rw [hinv]
+        _ = (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * w (n : ℝ) := by
+            dsimp [a]; ring
+  have hsum_collapse : (∑' n : ℕ, ((1 / (2 * Real.pi) : ℝ) : ℂ) * ∫ u : ℝ, F n u) =
+      ∑ n ∈ Finset.Icc 1 Y,
+        (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * w n := by
+    simp_rw [hterm_eval]
+    refine tsum_eq_sum fun n hn => ?_
+    by_cases hn0 : n = 0
+    · subst n; simp
+    · rw [hSupp n (by simpa [Finset.mem_Icc, Nat.one_le_iff_ne_zero, hn0] using hn), mul_zero]
+  rw [← hsum_collapse, tsum_mul_left, hswap]
+
+/-- Mellin inversion on the line of real part two. -/
+theorem weightedVonMangoldt_eq_verticalIntegral {d : ℕ} [NeZero d]
+    (χ : DirichletCharacter ℂ d) (K : ℂ → ℂ) (w : ℝ → ℂ) (Y : ℕ)
+    (hker : Integrable (fun u : ℝ => K (2 + (u : ℂ) * Complex.I)))
+    (hInv : ∀ x : ℝ, 0 < x → mellinInv 2 K x = w x)
+    (hSupp : ∀ n : ℕ, Y < n → w (n : ℝ) = 0) :
+    (∑ n ∈ Finset.Icc 1 Y, (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * w n) =
+      ((1 / (2 * Real.pi) : ℝ) : ℂ) *
+        ∫ u : ℝ, K (2 + (u : ℂ) * Complex.I) *
+          negLogDerivL χ (2 + (u : ℂ) * Complex.I) := by
+  simpa only [Complex.ofReal_ofNat] using
+    weightedVonMangoldt_eq_verticalIntegral_of_one_lt χ K w Y (σ:=2) (by norm_num)
+      (by simpa only [Complex.ofReal_ofNat] using hker) hInv hSupp
+
+/-- Mellin inversion for the quartic weight on the right side of the contour. -/
 theorem smoothedPrimeSum_eq_verticalIntegral {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ d)
     {Y : ℕ} (hY : 1 ≤ Y) (t : ℝ) :
     (∑ n ∈ Finset.Icc 1 Y,
@@ -515,112 +635,15 @@ theorem smoothedPrimeSum_eq_verticalIntegral {d : ℕ} [NeZero d] (χ : Dirichle
       ((1 / (2 * Real.pi) : ℝ) : ℂ) *
         ∫ u : ℝ, mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I) *
           negLogDerivL χ (2 + (u : ℂ) * Complex.I) := by
-  have hker := verticalIntegrable_mellin_scaledTiltedBump hY t (σ := 2) (by norm_num) le_rfl
-  let a : ℕ → ℂ := fun n => χ (n : ZMod d) * (ArithmeticFunction.vonMangoldt n : ℂ)
-  let F : ℕ → ℝ → ℂ := fun n u =>
-    mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I) *
-      LSeries.term a (2 + (u : ℂ) * Complex.I) n
-  have hF_norm : ∀ n u, ‖F n u‖ ≤ ‖mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I)‖ *
-      (2 / (n : ℝ) ^ ((3 : ℝ) / 2)) := by
-    intro n u
-    dsimp [F]
-    rw [norm_mul]
-    refine mul_le_mul_of_nonneg_left ?_ (norm_nonneg _)
-    by_cases hn : n = 0
-    · subst hn; simp [LSeries.term]
-    · have hn_pos : 0 < n := Nat.pos_of_ne_zero hn
-      rw [LSeries.term_of_ne_zero hn, norm_div, norm_mul, Complex.norm_real, Real.norm_eq_abs,
-          abs_of_nonneg ArithmeticFunction.vonMangoldt_nonneg,
-          Complex.norm_natCast_cpow_of_pos hn_pos]
-      have hs_re : ((2 : ℂ) + (u : ℂ) * Complex.I).re = 2 := by simp
-      rw [hs_re, Real.rpow_two]
-      have h1 : ‖χ (n : ZMod d)‖ * (ArithmeticFunction.vonMangoldt n : ℝ) ≤
-          (ArithmeticFunction.vonMangoldt n : ℝ) := by
-        have hχ := norm_dirichletChar_le_one χ (n : ZMod d)
-        nlinarith only [hχ, ArithmeticFunction.vonMangoldt_nonneg (n := n)]
-      exact (div_le_div_of_nonneg_right h1 (by positivity)).trans (vonMangoldt_div_sq_le n)
-  have hF_int : ∀ n : ℕ, Integrable (F n) := by
-    intro n
-    have hcont_term : Continuous (fun u : ℝ => LSeries.term a (2 + (u : ℂ) * Complex.I) n) := by
-      by_cases hn : n = 0
-      · subst hn; simp [LSeries.term]; exact continuous_const
-      · simp only [LSeries.term_of_ne_zero hn]
-        have hnC : ((n : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hn
-        have hcp : Continuous (fun u : ℝ => ((n : ℕ) : ℂ) ^ ((2 : ℂ) + (u : ℂ) * Complex.I)) :=
-          Continuous.const_cpow (by fun_prop) (Or.inl hnC)
-        exact continuous_const.div hcp fun u => Complex.cpow_ne_zero_iff.mpr (Or.inl hnC)
-    refine (hker.norm.mul_const (2 / (n : ℝ) ^ ((3 : ℝ) / 2))).mono'
-      (hker.aestronglyMeasurable.mul hcont_term.aestronglyMeasurable)
-      (Eventually.of_forall (hF_norm n))
-  have hF_sum : Summable fun n : ℕ => ∫ u : ℝ, ‖F n u‖ := by
-    have hsum_dom : Summable fun n : ℕ =>
-        (∫ u : ℝ, ‖mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I)‖) *
-          (2 / (n : ℝ) ^ ((3 : ℝ) / 2)) := by
-      have h1 : Summable (fun n : ℕ => ((n : ℝ) ^ ((3 : ℝ) / 2))⁻¹) :=
-        Real.summable_nat_rpow_inv.mpr (by norm_num)
-      simpa [div_eq_mul_inv, mul_assoc] using (h1.mul_left 2).mul_left _
-    refine hsum_dom.of_nonneg_of_le (fun n => integral_nonneg fun _ => norm_nonneg _) fun n => ?_
-    calc ∫ u : ℝ, ‖F n u‖
-        ≤ ∫ u : ℝ, ‖mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I)‖ *
-            (2 / (n : ℝ) ^ ((3 : ℝ) / 2)) :=
-          integral_mono (hF_int n).norm (hker.norm.mul_const _) (hF_norm n)
-      _ = (∫ u : ℝ, ‖mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I)‖) *
-            (2 / (n : ℝ) ^ ((3 : ℝ) / 2)) := integral_mul_const _ _
-  have hswap := MeasureTheory.integral_tsum_of_summable_integral_norm hF_int hF_sum
-  have htsum_eq : ∀ u : ℝ,
-      (∑' n : ℕ, F n u) = mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I) *
-        negLogDerivL χ (2 + (u : ℂ) * Complex.I) := by
-    intro u
-    have hs : 1 < ((2 : ℂ) + (u : ℂ) * Complex.I).re := by simp
-    rw [← LSeries_twist_vonMangoldt_eq_negLogDerivL χ hs]
-    unfold LSeries
-    change (∑' n : ℕ, mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I) *
-      LSeries.term a (2 + (u : ℂ) * Complex.I) n) = _
-    rw [tsum_mul_left]
-  simp_rw [htsum_eq] at hswap
-  have hterm_eval : ∀ n : ℕ,
-      ((1 / (2 * Real.pi) : ℝ) : ℂ) * (∫ u : ℝ, F n u) =
-        (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * scaledTiltedBump Y t (n : ℝ) := by
-    intro n
-    by_cases hn : n = 0
-    · subst hn
-      simp [F, LSeries.term]
-    · have hn_pos : (0 : ℝ) < (n : ℝ) := Nat.cast_pos.mpr (Nat.pos_of_ne_zero hn)
-      have hF_rw : ∀ u : ℝ, F n u = a n * (((n : ℝ) : ℂ) ^ (-((2 : ℂ) + (u : ℂ) * Complex.I)) *
-          mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I)) := by
-        intro u
-        dsimp [F]
-        rw [LSeries.term_of_ne_zero hn, div_eq_mul_inv, ← Complex.cpow_neg]
-        ring
-      simp_rw [hF_rw]
-      rw [integral_const_mul]
-      have hinv := mellinInv_scaledTiltedBump_eq hY t (σ := 2) (by norm_num) le_rfl hn_pos
-      unfold mellinInv at hinv
-      simp only [smul_eq_mul, Complex.real_smul, Complex.ofReal_ofNat] at hinv
-      calc ((1 / (2 * Real.pi) : ℝ) : ℂ) *
-            (a n * ∫ u : ℝ, ((n : ℝ) : ℂ) ^ (-((2 : ℂ) + (u : ℂ) * Complex.I)) *
-              mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I))
-          = a n * (((1 / (2 * Real.pi) : ℝ) : ℂ) *
-              ∫ u : ℝ, ((n : ℝ) : ℂ) ^ (-((2 : ℂ) + (u : ℂ) * Complex.I)) *
-                mellin (scaledTiltedBump Y t) (2 + (u : ℂ) * Complex.I)) := by ring
-        _ = a n * scaledTiltedBump Y t (n : ℝ) := by rw [hinv]
-        _ = (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * scaledTiltedBump Y t (n : ℝ) := by
-            dsimp [a]; ring
-  have hsum_collapse : (∑' n : ℕ, ((1 / (2 * Real.pi) : ℝ) : ℂ) * ∫ u : ℝ, F n u) =
-      ∑ n ∈ Finset.Icc 1 Y,
-        (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * scaledTiltedBump Y t (n : ℝ) := by
-    simp_rw [hterm_eval]
-    refine tsum_eq_sum fun n hn => ?_
-    by_cases hn0 : n = 0
-    · subst hn0; simp
-    · have hgt : Y < n := by
-        simp only [Finset.mem_Icc, not_and_or, not_le] at hn
-        omega
-      have hY_pos : (0 : ℝ) < (Y : ℝ) := Nat.cast_pos.mpr (by omega)
-      have hgt1 : 1 < (n : ℝ) / (Y : ℝ) := (one_lt_div hY_pos).mpr (Nat.cast_lt.mpr hgt)
-      have hnot : ¬(0 < (n : ℝ) / (Y : ℝ) ∧ (n : ℝ) / (Y : ℝ) < 1) := fun h => not_lt.mpr h.2.le hgt1
-      simp [scaledTiltedBump, quarticBump_eq_zero_of_not_mem hnot]
-  rw [← hsum_collapse, tsum_mul_left, hswap]
+  apply weightedVonMangoldt_eq_verticalIntegral _ _ _ _
+    (verticalIntegrable_mellin_scaledTiltedBump hY t (σ := 2) (by norm_num) le_rfl)
+    (fun x hx => mellinInv_scaledTiltedBump_eq hY t (σ := 2) (by norm_num) le_rfl hx)
+  intro n hn
+  have hY_pos : (0 : ℝ) < (Y : ℝ) := Nat.cast_pos.mpr (by omega)
+  have hgt1 : 1 < (n : ℝ) / (Y : ℝ) := (one_lt_div hY_pos).mpr (Nat.cast_lt.mpr hn)
+  have hnot : ¬(0 < (n : ℝ) / (Y : ℝ) ∧ (n : ℝ) / (Y : ℝ) < 1) :=
+    fun h => not_lt.mpr h.2.le hgt1
+  simp [scaledTiltedBump, quarticBump_eq_zero_of_not_mem hnot]
 
 end RightVerticalLineIdentity
 
@@ -630,6 +653,11 @@ section ZeroSummabilityAndQuarterIntegrability
 noncomputable def bandZeros {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ d) (k : ℤ) : Finset ℂ :=
   (diskZeros χ (2 + ((k : ℝ) : ℂ) * Complex.I) ((15 : ℝ) / 8)).filter
     fun ρ => 0 < ρ.re ∧ (k : ℝ) ≤ ρ.im ∧ ρ.im < (k : ℝ) + 1
+
+/-- A kernel's contribution at a zero of the primitive Dirichlet L-function. -/
+noncomputable def kernelZeroTerm {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ d)
+    (K : ℂ → ℂ) (ρ : ℂ) : ℂ :=
+  if 0 < ρ.re ∧ entireL χ ρ = 0 then (zeroMult χ ρ : ℂ) * K ρ else 0
 
 /-- Individual zero contribution `m_ρ * f̃(ρ)` supported on `0 < ρ.re ∧ entireL χ ρ = 0`. -/
 noncomputable def zeroTerm {d : ℕ} [NeZero d] (χ : DirichletCharacter ℂ d) (Y : ℕ) (t : ℝ) (ρ : ℂ) : ℂ :=
@@ -1038,18 +1066,18 @@ private lemma hasDerivAt_prod_sub_pow (Z : Finset ℂ) (m : ℂ → ℕ) (s : �
     | succ k => simp only [Nat.add_sub_cancel, pow_succ]; field_simp [hsa0]
 
 /-- Finite-rectangle contour identity at a good height `T ≥ 2`. -/
-private lemma rect_contour_identity (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
-    {χ : DirichletCharacter ℂ d} (hprim : χ.IsPrimitive) {Y : ℕ} (hY : 1 ≤ Y) (t : ℝ)
+private lemma rect_kernel_contour_identity (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
+    {χ : DirichletCharacter ℂ d} (hprim : χ.IsPrimitive) (F : ℂ → ℂ)
+    (hF_diff_U : DifferentiableOn ℂ F {s : ℂ | 0 < s.re})
     {T : ℝ} (hT : 2 ≤ T)
     (hno_zero : ∀ s : ℂ, 0 < s.re → (s.im = T ∨ s.im = -T) → entireL χ s ≠ 0) :
-    rectIntegral (fun s => mellin (scaledTiltedBump Y t) s * negLogDerivL χ s)
+    rectIntegral (fun s => F s * negLogDerivL χ s)
       ((1 : ℝ) / 4) 2 (-T) T =
     2 * (Real.pi : ℂ) * Complex.I *
-      ((if χ = 1 then mellin (scaledTiltedBump Y t) 1 else 0) -
+      ((if χ = 1 then F 1 else 0) -
         ∑ ρ ∈ (diskZeros χ 2 (T + 2)).filter
           (fun ρ => 0 < ρ.re ∧ -T < ρ.im ∧ ρ.im < T),
-          zeroTerm χ Y t ρ) := by
-  set F : ℂ → ℂ := mellin (scaledTiltedBump Y t)
+          kernelZeroTerm χ F ρ) := by
   set Z_big : Finset ℂ := diskZeros χ 2 (T + 2)
   set Z_in : Finset ℂ := Z_big.filter fun ρ => 0 < ρ.re ∧ -T < ρ.im ∧ ρ.im < T
   set Z_out : Finset ℂ := Z_big.filter fun ρ => ¬(0 < ρ.re ∧ -T < ρ.im ∧ ρ.im < T)
@@ -1113,11 +1141,9 @@ private lemma rect_contour_identity (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
     (∑ ρ ∈ Z_in, (zeroMult χ ρ : ℂ) * dslope F ρ s) -
     F s * (∑ ρ ∈ Z_out, (zeroMult χ ρ : ℂ) / (s - ρ)) -
     F s * (deriv g s / g s)
-  have hU_open : IsOpen {s : ℂ | -2 < s.re} := isOpen_lt continuous_const Complex.continuous_re
-  have hF_diff_U : DifferentiableOn ℂ F {s : ℂ | -2 < s.re} := fun s hs =>
-    (differentiableAt_mellin_scaledTiltedBump hY (t := t) hs).differentiableWithinAt
-  have hR_sub_U : Rbox ⊆ {s : ℂ | -2 < s.re} := fun s hs => by
-    show -2 < s.re
+  have hU_open : IsOpen {s : ℂ | 0 < s.re} := isOpen_lt continuous_const Complex.continuous_re
+  have hR_sub_U : Rbox ⊆ {s : ℂ | 0 < s.re} := fun s hs => by
+    show 0 < s.re
     have h1 : (1 : ℝ) / 4 ≤ s.re := (Complex.mem_reProdIm.mp hs).1.1
     linarith only [h1]
   have hF_diff_R : DifferentiableOn ℂ F Rbox := hF_diff_U.mono hR_sub_U
@@ -1125,15 +1151,15 @@ private lemma rect_contour_identity (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
     have h1 : DifferentiableOn ℂ (fun s => if χ = 1 then dslope F 1 s else 0) Rbox := by
       by_cases hχ : χ = 1
       · simp only [hχ, ↓reduceIte]
-        have hd1 : DifferentiableOn ℂ (dslope F 1) {s : ℂ | -2 < s.re} :=
-          (Complex.differentiableOn_dslope (hU_open.mem_nhds (by show -2 < (1 : ℂ).re; simp; norm_num))).mpr hF_diff_U
+        have hd1 : DifferentiableOn ℂ (dslope F 1) {s : ℂ | 0 < s.re} :=
+          (Complex.differentiableOn_dslope (hU_open.mem_nhds (by show 0 < (1 : ℂ).re; norm_num))).mpr hF_diff_U
         exact hd1.mono hR_sub_U
       · simp only [hχ, ↓reduceIte]; exact differentiableOn_const 0
     have h2 : DifferentiableOn ℂ (fun s => ∑ ρ ∈ Z_in, (zeroMult χ ρ : ℂ) * dslope F ρ s) Rbox := by
       refine DifferentiableOn.fun_sum fun ρ hρ => ?_
-      have hρ_U : ρ ∈ {s : ℂ | -2 < s.re} := by
-        show -2 < ρ.re; linarith only [(hZin_strict ρ hρ).1]
-      have hdρ : DifferentiableOn ℂ (dslope F ρ) {s : ℂ | -2 < s.re} :=
+      have hρ_U : ρ ∈ {s : ℂ | 0 < s.re} := by
+        show 0 < ρ.re; linarith only [(hZin_strict ρ hρ).1]
+      have hdρ : DifferentiableOn ℂ (dslope F ρ) {s : ℂ | 0 < s.re} :=
         (Complex.differentiableOn_dslope (hU_open.mem_nhds hρ_U)).mpr hF_diff_U
       exact (differentiableOn_const _).fun_mul (hdρ.mono hR_sub_U)
     have h3 : DifferentiableOn ℂ (fun s => F s * ∑ ρ ∈ Z_out, (zeroMult χ ρ : ℂ) / (s - ρ)) Rbox := by
@@ -1217,16 +1243,15 @@ private lemma rect_contour_identity (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
     linear_combination -hdslope_1 - hdslope_Zin
   -- Apply `rectIntegral_eq_sum_simple_poles`.
   have hres_sum : (∑ p ∈ P, res p) =
-      (if χ = 1 then F 1 else 0) - ∑ ρ ∈ Z_in, zeroTerm χ Y t ρ := by
-    have hZin_sum : (∑ ρ ∈ Z_in, res ρ) = -(∑ ρ ∈ Z_in, zeroTerm χ Y t ρ) := by
+      (if χ = 1 then F 1 else 0) - ∑ ρ ∈ Z_in, kernelZeroTerm χ F ρ := by
+    have hZin_sum : (∑ ρ ∈ Z_in, res ρ) = -(∑ ρ ∈ Z_in, kernelZeroTerm χ F ρ) := by
       rw [← Finset.sum_neg_distrib]
       refine Finset.sum_congr rfl fun ρ hρ => ?_
       have hρ1 : ρ ≠ 1 := fun h => h1_not_Zin (h ▸ hρ)
       obtain ⟨hbig, hre, _, _⟩ := Finset.mem_filter.mp hρ
       have h0 := ((mem_diskZeros_iff χ).mp hbig).2
-      dsimp [res]; unfold zeroTerm
+      dsimp [res]; unfold kernelZeroTerm
       simp only [hρ1, ↓reduceIte, hre, h0, and_self]
-      rfl
     dsimp [P]
     split_ifs with h1
     · rw [Finset.sum_insert h1_not_Zin, hZin_sum]
@@ -1262,24 +1287,25 @@ private lemma rect_contour_identity (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
         have := entireL_re_eq_half_of_eq_zero hGRH hprim (by simp [s]) h0
         simp [s] at this)
 
-/-- **Module A3 Main Theorem (`primitive_smoothed_explicit_formula`)**:
-Under `DirichletGRH`, for every primitive Dirichlet character `χ mod d`, `Y ≥ 2`, and `t : ℝ`,
-```
-∑_{n=1}^Y Λ(n) χ(n) w(n/Y) e(t n)
-  = 1_{χ=1} f̃(1) - ∑'_ρ m_ρ f̃(ρ) + (1 / (2π)) ∫_ℝ f̃(1/4 + iu) (-L'/L)(1/4 + iu, χ) du.
-``` -/
-theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
-    {χ : DirichletCharacter ℂ d} (hprim : χ.IsPrimitive) {Y : ℕ} (hY : 2 ≤ Y) (t : ℝ) :
-    (∑ n ∈ Finset.Icc 1 Y,
-      (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) *
-        scaledTiltedBump Y t (n : ℝ)) =
-      (if χ = 1 then mellin (scaledTiltedBump Y t) 1 else 0) -
-      (∑' ρ : ℂ, zeroTerm χ Y t ρ) +
+/-- Shift an analytic kernel from the right vertical line to the quarter-line,
+taking the pole at one and all zeros in the positive half-plane. -/
+theorem primitive_kernel_contour_shift (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
+    {χ : DirichletCharacter ℂ d} (hprim : χ.IsPrimitive) (K : ℂ → ℂ)
+    (hK_diff : DifferentiableOn ℂ K {s : ℂ | 0 < s.re})
+    (hright : Integrable (fun u : ℝ => K (2 + (u : ℂ) * Complex.I) *
+      negLogDerivL χ (2 + (u : ℂ) * Complex.I)))
+    (hleft : Integrable (fun u : ℝ => K ((1/4 : ℝ) + (u : ℂ) * Complex.I) *
+      negLogDerivL χ ((1/4 : ℝ) + (u : ℂ) * Complex.I)))
+    (hzeros : Summable (kernelZeroTerm χ K))
+    (hhorizontal : ∃ A R : ℝ, 0 ≤ A ∧
+      ∀ σ ∈ Icc ((1 : ℝ)/4) 2, ∀ u : ℝ, R ≤ |u| →
+        ‖K ((σ : ℂ) + (u : ℂ) * Complex.I)‖ ≤ A/(1+|u|)^2) :
+    ((1 / (2 * Real.pi) : ℝ) : ℂ) *
+      (∫ u : ℝ, K (2 + (u : ℂ) * Complex.I) * negLogDerivL χ (2 + (u : ℂ) * Complex.I)) =
+      (if χ = 1 then K 1 else 0) - (∑' ρ : ℂ, kernelZeroTerm χ K ρ) +
       ((1 / (2 * Real.pi) : ℝ) : ℂ) *
-        ∫ u : ℝ, mellin (scaledTiltedBump Y t) ((1 / 4 : ℝ) + (u : ℂ) * Complex.I) *
-          negLogDerivL χ ((1 / 4 : ℝ) + (u : ℂ) * Complex.I) := by
-  have hY1 : 1 ≤ Y := by omega
-  have hY_pos : (0 : ℝ) < (Y : ℝ) := Nat.cast_pos.mpr (by omega)
+        ∫ u : ℝ, K ((1/4 : ℝ) + (u : ℂ) * Complex.I) *
+          negLogDerivL χ ((1/4 : ℝ) + (u : ℂ) * Complex.I) := by
   -- Choose a sequence of good heights `T j ∈ [j + 2, j + 3]`.
   have hchoose : ∀ j : ℕ, ∃ T ∈ Icc ((j + 2 : ℕ) : ℝ) ((j + 2 : ℕ) + 1),
       (∀ s : ℂ, 0 < s.re → (s.im = T ∨ s.im = -T) → entireL χ s ≠ 0) ∧
@@ -1301,7 +1327,7 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
       linarith only [h1, h2]) tendsto_natCast_atTop_atTop
   have hnegT_bot : Tendsto (fun j => -T j) atTop atBot :=
     tendsto_neg_atTop_atBot.comp hT_top
-  set G : ℂ → ℂ := fun s => mellin (scaledTiltedBump Y t) s * negLogDerivL χ s
+  set G : ℂ → ℂ := fun s => K s * negLogDerivL χ s
   set Zbox : ℕ → Finset ℂ := fun j =>
     (diskZeros χ 2 (T j + 2)).filter fun ρ => 0 < ρ.re ∧ -(T j) < ρ.im ∧ ρ.im < T j
   -- Rewrite the finite rectangle identity at height `T j`.
@@ -1309,8 +1335,8 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
     mul_ne_zero (mul_ne_zero two_ne_zero (Complex.ofReal_ne_zero.mpr Real.pi_ne_zero)) Complex.I_ne_zero
   have hstep : ∀ j : ℕ,
       ((1 / (2 * Real.pi) : ℝ) : ℂ) * (∫ u in (-T j)..(T j), G (2 + (u : ℂ) * Complex.I)) =
-      (if χ = 1 then mellin (scaledTiltedBump Y t) 1 else 0) -
-      (∑ ρ ∈ Zbox j, zeroTerm χ Y t ρ) +
+      (if χ = 1 then K 1 else 0) -
+      (∑ ρ ∈ Zbox j, kernelZeroTerm χ K ρ) +
       ((1 / (2 * Real.pi) : ℝ) : ℂ) * (∫ u in (-T j)..(T j), G ((1 / 4 : ℝ) + (u : ℂ) * Complex.I)) -
       (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
         ((∫ σ in ((1 : ℝ) / 4)..2, G ((σ : ℂ) + ((-T j : ℝ) : ℂ) * Complex.I)) -
@@ -1322,37 +1348,32 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
         Complex.I * (∫ u in (-T j)..(T j), G (2 + (u : ℂ) * Complex.I)) -
         Complex.I * (∫ u in (-T j)..(T j), G ((1 / 4 : ℝ) + (u : ℂ) * Complex.I)) =
         2 * (Real.pi : ℂ) * Complex.I *
-          ((if χ = 1 then mellin (scaledTiltedBump Y t) 1 else 0) -
-            ∑ ρ ∈ Zbox j, zeroTerm χ Y t ρ) :=
-      rect_contour_identity hGRH hprim hY1 t (hT_ge2 j) (hT_nozero j)
+          ((if χ = 1 then K 1 else 0) -
+            ∑ ρ ∈ Zbox j, kernelZeroTerm χ K ρ) :=
+      rect_kernel_contour_identity hGRH hprim K hK_diff (hT_ge2 j) (hT_nozero j)
     have hdiv := congrArg (fun z => (2 * (Real.pi : ℂ) * Complex.I)⁻¹ * z) hid
     simp only [inv_mul_cancel_left₀ h2pi_ne] at hdiv
     have hcoef : (2 * (Real.pi : ℂ) * Complex.I)⁻¹ * Complex.I = ((1 / (2 * Real.pi) : ℝ) : ℂ) := by
       push_cast; field_simp [Complex.I_ne_zero, Complex.ofReal_ne_zero.mpr Real.pi_ne_zero]
     rw [mul_sub, mul_add, mul_sub, ← mul_assoc, ← mul_assoc, hcoef] at hdiv
     linear_combination hdiv
-  -- Limit 1: Right vertical line tends to `smoothedPrimeSum`.
-  have hlim_right : Tendsto
-      (fun j => ((1 / (2 * Real.pi) : ℝ) : ℂ) * (∫ u in (-T j)..(T j), G (2 + (u : ℂ) * Complex.I)))
-      atTop (𝓝 (∑ n ∈ Finset.Icc 1 Y,
-        (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) * scaledTiltedBump Y t (n : ℝ))) := by
-    rw [smoothedPrimeSum_eq_verticalIntegral χ hY1 t]
-    exact (intervalIntegral_tendsto_integral (integrable_two_line χ hY1 t) hnegT_bot hT_top).const_mul _
+  have hlim_right := (intervalIntegral_tendsto_integral hright hnegT_bot hT_top).const_mul
+    (((1 / (2 * Real.pi) : ℝ) : ℂ))
   -- Limit 2: Left vertical line tends to `(1/(2π)) ∫_ℝ G(1/4 + iu) du`.
   have hlim_left : Tendsto
       (fun j => ((1 / (2 * Real.pi) : ℝ) : ℂ) *
         (∫ u in (-T j)..(T j), G ((1 / 4 : ℝ) + (u : ℂ) * Complex.I)))
       atTop (𝓝 (((1 / (2 * Real.pi) : ℝ) : ℂ) *
         ∫ u : ℝ, G ((1 / 4 : ℝ) + (u : ℂ) * Complex.I))) :=
-    (intervalIntegral_tendsto_integral (integrable_quarter_line hGRH hprim hY1 t) hnegT_bot hT_top).const_mul _
-  -- Limit 3: Zero sum over `Zbox j` tends to `∑' ρ, zeroTerm χ Y t ρ`.
-  have hlim_zeros : Tendsto (fun j => ∑ ρ ∈ Zbox j, zeroTerm χ Y t ρ)
-      atTop (𝓝 (∑' ρ : ℂ, zeroTerm χ Y t ρ)) := by
-    refine tendsto_sum_of_exhaustion (summable_zeroTerm hGRH hprim hY1 t) fun s => ?_
+    (intervalIntegral_tendsto_integral (hleft) hnegT_bot hT_top).const_mul _
+  -- Limit 3: Zero sum over `Zbox j` tends to `∑' ρ, kernelZeroTerm χ K ρ`.
+  have hlim_zeros : Tendsto (fun j => ∑ ρ ∈ Zbox j, kernelZeroTerm χ K ρ)
+      atTop (𝓝 (∑' ρ : ℂ, kernelZeroTerm χ K ρ)) := by
+    refine tendsto_sum_of_exhaustion hzeros fun s => ?_
     let M_s : ℝ := (∑ ρ ∈ s, |ρ.im|) + 1
     filter_upwards [hT_top.eventually_gt_atTop M_s] with j hj ρ hρs hne
     have hcond : 0 < ρ.re ∧ entireL χ ρ = 0 := by
-      by_contra hnot; apply hne; unfold zeroTerm; simp only [hnot, ↓reduceIte]
+      by_contra hnot; apply hne; unfold kernelZeroTerm; simp only [hnot, ↓reduceIte]
     have hρ_im_lt : |ρ.im| < T j := by
       have hle : |ρ.im| ≤ ∑ w ∈ s, |w.im| :=
         Finset.single_le_sum (f := fun w : ℂ => |w.im|) (fun _ _ => abs_nonneg _) hρs
@@ -1381,12 +1402,13 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
       have hd : (1 : ℝ) ≤ d := Nat.one_le_cast.mpr (NeZero.pos d)
       have : 0 ≤ Real.log (2 * (d : ℝ)) := Real.log_nonneg (by linarith only [hd])
       linarith only [this]
-    set C_h : ℝ := (7 / 4 : ℝ) * (Y : ℝ) ^ 2 * 15000 * 4000000 * (Real.log (2 * (d : ℝ)) + 4) ^ 2
+    obtain ⟨A, R, hA, hdecay⟩ := hhorizontal
+    set C_h : ℝ := (7 / 4 : ℝ) * A * 4000000 * (Real.log (2 * (d : ℝ)) + 4) ^ 2
     have hbound : ∀ᶠ j in atTop,
         ‖∫ σ in ((1 : ℝ) / 4)..2,
           G ((σ : ℂ) + ((if sgn then T j else -T j : ℝ) : ℂ) * Complex.I)‖ ≤
           C_h / (1 + T j) := by
-      filter_upwards [hT_top.eventually_ge_atTop (4 * Real.pi * |t * (Y : ℝ)| + 2)] with j hj
+      filter_upwards [hT_top.eventually_ge_atTop R] with j hj
       have hT_nn : 0 ≤ T j := by linarith only [hT_ge2 j]
       have hτ_abs : |if sgn then T j else -T j| = T j := by
         cases sgn <;> simp [abs_of_nonneg hT_nn]
@@ -1416,34 +1438,25 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
         exact hsq
       have hpt : ∀ σ ∈ uIoc ((1 : ℝ) / 4) 2,
           ‖G ((σ : ℂ) + ((if sgn then T j else -T j : ℝ) : ℂ) * Complex.I)‖ ≤
-            (Y : ℝ) ^ 2 * 15000 * 4000000 * (Real.log (2 * (d : ℝ)) + 4) ^ 2 / (1 + T j) := by
+            A * 4000000 * (Real.log (2 * (d : ℝ)) + 4) ^ 2 / (1 + T j) := by
         intro σ hσ
         rw [Set.uIoc_of_le (by norm_num)] at hσ
         have hσ_Icc : σ ∈ Icc ((1 : ℝ) / 4) 2 := ⟨hσ.1.le, hσ.2⟩
         dsimp [G]
-        rw [norm_mul, mellin_scaledTiltedBump_eq hY1 t _, norm_mul,
-            Complex.norm_cpow_eq_rpow_re_of_pos hY_pos]
-        have hre : ((σ : ℂ) + ((if sgn then T j else -T j : ℝ) : ℂ) * Complex.I).re = σ := by simp
-        rw [hre]
-        have hYpow : (Y : ℝ) ^ σ ≤ (Y : ℝ) ^ (2 : ℕ) := by
-          rw [← Real.rpow_natCast]
-          exact Real.rpow_le_rpow_of_exponent_le (Nat.one_le_cast.mpr hY1) hσ_Icc.2
-        have hker := quarticKernel_norm_le_tail (lam := t * (Y : ℝ)) (σ := σ)
-          (γ := if sgn then T j else -T j) hσ_Icc.1 hσ_Icc.2 (by rwa [hτ_abs])
+        rw [norm_mul]
+        have hker := hdecay σ hσ_Icc (if sgn then T j else -T j) (by rwa [hτ_abs])
         rw [hτ_abs] at hker
         have hD : ‖negLogDerivL χ ((σ : ℂ) + ((if sgn then T j else -T j : ℝ) : ℂ) * Complex.I)‖ ≤
             4000000 * (Real.log (2 * (d : ℝ) * (2 + T j))) ^ 2 := by
           cases sgn
           · simpa using (hT_bd j σ hσ_Icc).2
           · simpa using (hT_bd j σ hσ_Icc).1
-        calc (Y : ℝ) ^ σ * ‖quarticKernel (t * (Y : ℝ)) ((σ : ℂ) + ((if sgn then T j else -T j : ℝ) : ℂ) * Complex.I)‖ *
-              ‖negLogDerivL χ ((σ : ℂ) + ((if sgn then T j else -T j : ℝ) : ℂ) * Complex.I)‖
-            ≤ (Y : ℝ) ^ 2 * (15000 / (1 + T j) ^ 2) *
-              (4000000 * ((Real.log (2 * (d : ℝ)) + 4) ^ 2 * (1 + T j))) := by
-                refine mul_le_mul (mul_le_mul hYpow hker (norm_nonneg _) (by positivity))
+        calc _ ≤ (A / (1 + T j)^2) *
+              (4000000 * ((Real.log (2 * (d : ℝ)) + 4)^2 * (1 + T j))) := by
+                exact mul_le_mul hker
                   (hD.trans (mul_le_mul_of_nonneg_left hlog_sq (by norm_num)))
                   (norm_nonneg _) (by positivity)
-          _ = (Y : ℝ) ^ 2 * 15000 * 4000000 * (Real.log (2 * (d : ℝ)) + 4) ^ 2 / (1 + T j) := by
+          _ = A * 4000000 * (Real.log (2 * (d : ℝ)) + 4)^2 / (1 + T j) := by
                 have hpos : 1 + T j ≠ 0 := by linarith only [hT_nn]
                 field_simp [hpos]
       have hlen : |(2 : ℝ) - 1 / 4| = 7 / 4 := by norm_num
@@ -1451,7 +1464,7 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
       rw [hlen] at hint_le
       calc ‖∫ σ in ((1 : ℝ) / 4)..2,
             G ((σ : ℂ) + ((if sgn then T j else -T j : ℝ) : ℂ) * Complex.I)‖
-          ≤ ((Y : ℝ) ^ 2 * 15000 * 4000000 * (Real.log (2 * (d : ℝ)) + 4) ^ 2 / (1 + T j)) * (7 / 4) := hint_le
+          ≤ (A * 4000000 * (Real.log (2 * (d : ℝ)) + 4) ^ 2 / (1 + T j)) * (7 / 4) := hint_le
         _ = C_h / (1 + T j) := by dsimp [C_h]; ring
     have htend_rhs : Tendsto (fun j => C_h / (1 + T j)) atTop (𝓝 0) := by
       have h1 : Tendsto (fun j => 1 + T j) atTop atTop := tendsto_atTop_add_const_left atTop 1 hT_top
@@ -1460,15 +1473,15 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
       (squeeze_zero' (Eventually.of_forall fun _ => norm_nonneg _) hbound htend_rhs)
   have hlim_rhs : Tendsto
       (fun j =>
-        (if χ = 1 then mellin (scaledTiltedBump Y t) 1 else 0) -
-        (∑ ρ ∈ Zbox j, zeroTerm χ Y t ρ) +
+        (if χ = 1 then K 1 else 0) -
+        (∑ ρ ∈ Zbox j, kernelZeroTerm χ K ρ) +
         ((1 / (2 * Real.pi) : ℝ) : ℂ) * (∫ u in (-T j)..(T j), G ((1 / 4 : ℝ) + (u : ℂ) * Complex.I)) -
         (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
           ((∫ σ in ((1 : ℝ) / 4)..2, G ((σ : ℂ) + ((-T j : ℝ) : ℂ) * Complex.I)) -
            (∫ σ in ((1 : ℝ) / 4)..2, G ((σ : ℂ) + (T j : ℂ) * Complex.I))))
       atTop
-      (𝓝 ((if χ = 1 then mellin (scaledTiltedBump Y t) 1 else 0) -
-        (∑' ρ : ℂ, zeroTerm χ Y t ρ) +
+      (𝓝 ((if χ = 1 then K 1 else 0) -
+        (∑' ρ : ℂ, kernelZeroTerm χ K ρ) +
         ((1 / (2 * Real.pi) : ℝ) : ℂ) *
           ∫ u : ℝ, G ((1 / 4 : ℝ) + (u : ℂ) * Complex.I))) := by
     have hbot : Tendsto (fun j => ∫ σ in ((1 : ℝ) / 4)..2, G ((σ : ℂ) + ((-T j : ℝ) : ℂ) * Complex.I))
@@ -1482,6 +1495,44 @@ theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZ
       simpa using (hbot.sub htop).const_mul (2 * (Real.pi : ℂ) * Complex.I)⁻¹
     simpa only [sub_zero] using (((tendsto_const_nhds.sub hlim_zeros).add hlim_left).sub herr)
   exact tendsto_nhds_unique hlim_right (hlim_rhs.congr fun j => (hstep j).symm)
+
+/-- **Module A3 Main Theorem (`primitive_smoothed_explicit_formula`)**:
+Under `DirichletGRH`, for every primitive Dirichlet character `χ mod d`, `Y ≥ 2`, and `t : ℝ`,
+```
+∑_{n=1}^Y Λ(n) χ(n) w(n/Y) e(t n)
+  = 1_{χ=1} f̃(1) - ∑'_ρ m_ρ f̃(ρ) + (1 / (2π)) ∫_ℝ f̃(1/4 + iu) (-L'/L)(1/4 + iu, χ) du.
+``` -/
+theorem primitive_smoothed_explicit_formula (hGRH : DirichletGRH) {d : ℕ} [NeZero d]
+    {χ : DirichletCharacter ℂ d} (hprim : χ.IsPrimitive) {Y : ℕ} (hY : 2 ≤ Y) (t : ℝ) :
+    (∑ n ∈ Finset.Icc 1 Y,
+      (ArithmeticFunction.vonMangoldt n : ℂ) * χ (n : ZMod d) *
+        scaledTiltedBump Y t (n : ℝ)) =
+      (if χ = 1 then mellin (scaledTiltedBump Y t) 1 else 0) -
+      (∑' ρ : ℂ, zeroTerm χ Y t ρ) +
+      ((1 / (2 * Real.pi) : ℝ) : ℂ) *
+        ∫ u : ℝ, mellin (scaledTiltedBump Y t) ((1 / 4 : ℝ) + (u : ℂ) * Complex.I) *
+          negLogDerivL χ ((1 / 4 : ℝ) + (u : ℂ) * Complex.I) := by
+  have hY1 : 1 ≤ Y := by omega
+  have hY_pos : (0 : ℝ) < (Y : ℝ) := Nat.cast_pos.mpr (by omega)
+  rw [smoothedPrimeSum_eq_verticalIntegral χ hY1 t]
+  apply primitive_kernel_contour_shift hGRH hprim
+    (mellin (scaledTiltedBump Y t))
+    (fun s hs => (differentiableAt_mellin_scaledTiltedBump hY1 (t := t)
+      (by linarith only [show 0 < s.re from hs])).differentiableWithinAt)
+    (integrable_two_line χ hY1 t) (integrable_quarter_line hGRH hprim hY1 t)
+    (summable_zeroTerm hGRH hprim hY1 t)
+  refine ⟨(Y : ℝ)^2 * 15000, 4 * Real.pi * |t*(Y:ℝ)|+2, by positivity, ?_⟩
+  intro σ hσ u hu
+  rw [mellin_scaledTiltedBump_eq hY1 t _, norm_mul,
+    Complex.norm_cpow_eq_rpow_re_of_pos hY_pos]
+  have hre : ((σ : ℂ) + (u : ℂ)*Complex.I).re=σ := by simp
+  rw [hre]
+  have hYpow : (Y:ℝ)^σ ≤ (Y:ℝ)^(2:ℕ) := by
+    rw [← Real.rpow_natCast]
+    exact Real.rpow_le_rpow_of_exponent_le (Nat.one_le_cast.mpr hY1) hσ.2
+  calc _ ≤ (Y:ℝ)^2 * (15000/(1+|u|)^2) :=
+        mul_le_mul hYpow (quarticKernel_norm_le_tail hσ.1 hσ.2 hu) (norm_nonneg _) (by positivity)
+    _ = _ := by ring
 
 end ContourShiftAndExplicitFormula
 
